@@ -1,0 +1,36 @@
+.icon {
+  &__sm {
+    height: 20px;
+    width: 20px;
+  }
+
+  &__md {
+    height: 30px;
+    width: 30px;
+  }
+
+  &__lg {
+    height: 40px;
+    width: 40px;
+  }
+
+  &-search {
+    content: url(../../assets/img/icons/search.svg);
+  }
+
+  &-profile {
+    content: url(../../assets/img/icons/profile.svg);
+  }
+
+  &-shopping-bag {
+    content: url(../../assets/img/icons/shopping-bag.svg);
+  }
+
+  &-youtube {
+    content: url(../../assets/img/icons/youtube.svg);
+  }
+
+  &-arrow {
+    content: url(../../assets/img/icons/arrow.svg);
+  }
+}

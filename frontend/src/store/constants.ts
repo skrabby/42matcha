@@ -1,0 +1,3 @@
+export const AUTHORIZATION = "AUTHORIZATION";
+export const SET_PRODUCTS = "SET_PRODUCTS";
+export const SET_MAIN_LOADER = "SET_MAIN_PAGE_LOADER";

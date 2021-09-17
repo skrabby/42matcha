@@ -1,0 +1,77 @@
+@import '../../assets/styles/main.scss';
+.header {
+
+  &__container {
+    width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    height: 60px;
+
+    @media screen and (max-width: 1320px) {
+      width: 100%;
+    }
+
+    & div:nth-child(1) {
+      flex: 1 1 0;
+
+      @media screen and (max-width: 640px) {
+        flex: 0 0 20px;
+      }
+    }
+
+    & div:nth-child(2) {
+      text-align: center;
+      text-transform: uppercase;
+      font-family: 'Red Hat Text', sans-serif;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 60px;
+      color: $primary_color;
+    }
+
+    & div:nth-child(3) {
+      flex: 1 1 0;
+      ul {
+        height: 60px;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        list-style-type: none;
+
+        li {
+          margin: 0 15px;
+          a {
+            padding: 0;
+            text-decoration: none;
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  &__msg {
+    height: 45px;
+    background: $primary-color;
+    color: white;
+    text-align: center;
+    line-height: 45px;
+  }
+
+  &__nav {
+    position: relative;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      height: 1px;
+      background: $block-line-break;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.audio-player {
+  display: flex;
+  width: 300px;
+  height: 20px;
+
+  @media screen and (max-width: 760px) {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 20px;
+    //min-width: 320px;
+  }
+
+  &__play-btn:hover {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  &__btn-container {
+    position: relative;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    background: #F0F0F0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+
+    &-icon {
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.1s ease;
+      border-color: transparent transparent transparent #3D3D3D;
+
+      &-play {
+        border-style: solid;
+        border-width: 6px 0 6px 8px;
+      }
+
+      &-pause {
+        border-left:3px solid #3D3D3D;
+        border-right:3px solid #3D3D3D;
+        width: 3px;
+        height: 10px;
+      }
+    }
+  }
+
+  &__track-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 20px;
+    width: 100%;
+    margin-left: 10px;
+
+    &-top {
+      flex: 1 1 0;
+      display: flex;
+    }
+  }
+
+  &__track-bar {
+
+    height: 4px;
+    background: #F0F0F0;
+    cursor: pointer;
+
+    &_filled {
+      height: 4px;
+      width: 0px;
+      background: #3D3D3D;
+    }
+  }
+
+  &__title {
+    font-family: "Red Hat Text", sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: #3D3D3D;
+    flex: 1 1 0;
+  }
+
+  &__timer {
+    font-size: 11px;
+    font-weight: 400;
+    font-family: "Red Hat Text", sans-serif;
+    color: #3D3D3D;
+  }
+
+}

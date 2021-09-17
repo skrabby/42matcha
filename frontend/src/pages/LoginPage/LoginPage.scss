@@ -1,0 +1,115 @@
+@import './src/assets/styles/styles.scss';
+
+.wrapper-pic {
+  background: url(../../assets/img/login_page_bg2.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.card {
+  width: 600px;
+  background: $card-bg-color;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+
+  &.abs-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  &.login {
+    min-height: 400px;
+  }
+
+  &.register {
+    min-height: 600px;
+  }
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  &.img {
+    top: 24px;
+    content: url(../../assets/img/logo.png);
+    height: 30px;
+  }
+
+  &.title {
+    top: 24px + 30px + 18px;
+    height: 30px;
+    text-transform: uppercase;
+    font-family: 'Red Hat Text', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+.status-msg {
+  text-align: center;
+  font-size: 12px;
+
+  &.error-msg {
+    color: $error-msg-color;
+  }
+
+  &.info-msg {
+    color: $info-msg-color;
+  }
+}
+
+.input-block {
+  margin-top: 24px + 30px + 18px + 18px + 24px;
+}
+
+.social-auth-block {
+  display: flex;
+  justify-content: center;
+
+  & .social-icon {
+    height: 20px;
+    margin: 5px 10px;
+    &.facebook {
+      content: url(../../assets/img/icons/facebook.svg);
+    }
+
+    &.google {
+      content: url(../../assets/img/icons/google.svg);
+    }
+
+    &.twitter {
+      content: url(../../assets/img/icons/twitter.svg);
+    }
+  }
+}
+
+.btn-submit-block {
+  margin-top: 15px;
+}
+
+.link-text {
+  color: $link-color;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.password-reminder {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.register-text {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: $placeholder-color;
+}
