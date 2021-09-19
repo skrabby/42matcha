@@ -18,7 +18,7 @@ interface LoginPageState {
     statusMsg: string;
 }
 
-class LoginPage extends React.Component<LoginPageState> {
+class LoginPage extends React.Component<any, LoginPageState> {
 
     state = {
         card: Card.LOGIN,
@@ -193,7 +193,7 @@ class LoginPage extends React.Component<LoginPageState> {
                     key={this.state.card}
                     className='card abs-center login'>
                     <div className='logo img'></div>
-                    <div className='logo title'>Selfpiano</div>
+                    <div className='logo title'>42Matcha</div>
                     {this.renderForm()}
                 </div>
             </div>

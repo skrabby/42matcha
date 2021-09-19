@@ -11,18 +11,39 @@ import followUsImg from "../../assets/img/follow.png";
 
 import './HomePage.scss';
 import {Button} from "../../components";
+import LoginPage from "../LoginPage";
 
 interface HomePageProps {
 }
 
 interface HomePageState {
+    isLoginModalActive: boolean;
 }
 
 class HomePage extends React.Component<HomePageProps, HomePageState> {
+    constructor(props: HomePageProps) {
+        super(props);
+
+        this.state = {
+            isLoginModalActive: false
+        }
+    }
+
+    onLoginModalClick = (isActive: boolean) => {
+        this.setState({isLoginModalActive: isActive});
+    }
+
     render() {
         return (
             <div className='wrapper-primary'>
-                <Header/>
+                <div className={`modal-login${this.state.isLoginModalActive ? '' : ' modal-login_disabled'}`}>
+                    <div className='modal-login__mask'
+                         onClick={() => this.onLoginModalClick(false)}>
+                        <span className='modal-login__close-btn'/>
+                    </div>
+                    <LoginPage/>
+                </div>
+                <Header onProfileClick={() => this.onLoginModalClick(true)}/>
                 <div className='main'>
                     <section className='slider__main'>
                         <ImgSlider/>
