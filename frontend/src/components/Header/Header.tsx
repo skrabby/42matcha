@@ -3,33 +3,33 @@ import { Link } from 'react-router-dom';
 
 import './Header.scss';
 
-class Header extends React.Component {
-	constructor(props: any) {
-		super(props);
-	}
+interface HeaderProps {
+	onProfileClick?: () => void;
+}
 
-	render() {
-		return(
-			<header>
-				<div className='header__msg'>
-					This website is working in trial mode
-				</div>
-				<nav className='header__nav'>
-					<div className='header__container'>
-						<div/>
-						<div>Selfpiano</div>
-						<div>
-							<ul>
-								<li><Link to='/login'><span className='icon__sm icon-profile'/></Link></li>
-								<li><span className='icon__sm icon-search'/></li>
-								<li><Link to='/'><span className='icon__sm icon-shopping-bag'/></Link></li>
-							</ul>
-						</div>
+const Header: React.FC<HeaderProps> = (props) => {
+
+
+	return (
+		<header>
+			<div className='header__msg'>
+				This website is working in trial mode
+			</div>
+			<nav className='header__nav'>
+				<div className='header__container'>
+					<div/>
+					<div>Selfpiano</div>
+					<div>
+						<ul>
+							<li><a onClick={() => props.onProfileClick && props.onProfileClick()}><span className='icon__sm icon-profile'/></a></li>
+							<li><span className='icon__sm icon-search'/></li>
+							<li><Link to='/'><span className='icon__sm icon-shopping-bag'/></Link></li>
+						</ul>
 					</div>
-				</nav>
-			</header>
-		)
-	} 
+				</div>
+			</nav>
+		</header>
+	)
 }
 
 export default Header;
