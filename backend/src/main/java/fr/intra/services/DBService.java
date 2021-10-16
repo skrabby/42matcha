@@ -25,9 +25,9 @@ import java.util.Scanner;
 public class DBService {
 
     public DBService() {
-        initDBOfClientsGeneral();
-        initDBOfGeneralTags();
-        initDBOfClientsTags();
+//        initDBOfClientsGeneral();
+//        initDBOfGeneralTags();
+//        initDBOfClientsTags();
     }
 
     @Data
@@ -77,7 +77,7 @@ public class DBService {
             while (scanner.hasNextLine())
                 lines.add(scanner.nextLine());
 
-            try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")) {
+            try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")) {
                 //Create TAG table
                 Statement statement = pgpool.createStatement();
 //                statement.execute("create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);");
@@ -102,7 +102,7 @@ public class DBService {
     }
 
     private void initDBOfClientsTags() {
-        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")) {
+        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")) {
             //Create Users_TAGS table
             Statement statement = pgpool.createStatement();
             statement.execute("create table if not exists USERS_TAGS(\n" +
@@ -116,7 +116,7 @@ public class DBService {
 
     public static boolean createClient(String name, String email){
 
-        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")){
+        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")){
             Statement statement = pgpool.createStatement();
             int updateSuccess = statement.executeUpdate("INSERT INTO USERS(NAME, EMAIL) VALUES " +
                     "('"+ name +"','"+ email +"')");

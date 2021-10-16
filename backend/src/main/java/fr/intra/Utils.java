@@ -11,7 +11,7 @@ import java.sql.*;
 public class Utils {
 
     public static boolean updateEvent(String sql){
-        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")){
+        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")){
             Statement statement = pgpool.createStatement();
             int updateSuccess = statement.executeUpdate(sql);
             if (updateSuccess == 1) {
@@ -25,7 +25,7 @@ public class Utils {
     }
 
     public static boolean selectEventBytes(String sql){
-        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")){
+        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")){
         } catch (Exception ex){
             ex.printStackTrace();
             return false;
