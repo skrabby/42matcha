@@ -3,19 +3,18 @@ package fr.intra.user;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 public class User {
-
     private String name;
     private String email;
     private String gender;
-    private SexPref sexPref;
+    private String sexpref;
     private String biography;
-    private List<Tag> tags;
-    private List<Picture> pictures;
+    private ArrayList<String> tags;
 
     public User(){
     }
