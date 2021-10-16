@@ -15,21 +15,21 @@ services:
       context: ./postgres/
       dockerfile: Dockerfile
 
-#  backend.facade:
-#    image: backend.facade
-#    container_name: backend.facade
-#    ports:
-#      - 8087:8087
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/matcha
-#      SPRING_DATASOURCE_USERNAME: postgres
-#      SPRING_DATASOURCE_PASSWORD: postgres
-#    restart: always
-#    build:
-#      context: ./backend.facade/
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - postgres
+  backend:
+    image: backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/matcha
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: q1w2e3r4
+    restart: always
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
 #    build:
 #      context: ./postgres/
 #      dockerfile: Dockerfile
