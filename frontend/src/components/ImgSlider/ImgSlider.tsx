@@ -8,10 +8,10 @@ const ImgSlider: React.FC = (props) => {
     return (
         <div className='slider'>
             <div>
-                <p className='slider__subtitle'>ON YOUR PIANO</p>
-                <h1 className='slider__title'>YOUR FAVORITE SONGS</h1>
+                <p className='slider__subtitle'>GET YOUR</p>
+                <h1 className='slider__title'>UNFORGETTABLE EMOTIONS</h1>
                 <p className='slider__subtitle'>WHAT ARE YOU WAITING FOR?</p>
-                <Button className='slider__btn'>CATALOG</Button>
+                <Button className='slider__btn'>JOIN NOW</Button>
             </div>
         </div>
     );

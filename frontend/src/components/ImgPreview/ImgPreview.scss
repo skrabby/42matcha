@@ -1,0 +1,30 @@
+.sample {
+  img {
+    display: block;
+    height: 300px;
+    width: 300px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 15px;
+    transition: 0.2s ease-in-out transform;
+
+  }
+
+  @media screen and (max-width: 680px) {
+
+    width: 100%;
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+  }
+
+  &__audio-player {
+    margin-top: 20px;
+  }
+
+  img:hover {
+    transform: scale(1.04);
+    cursor: pointer;
+  }
+}

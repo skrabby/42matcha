@@ -51,6 +51,9 @@
     font-family: 'Red Hat Text', sans-serif;
     font-weight: bold;
     font-size: 18px;
+    background: $primary-color;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
