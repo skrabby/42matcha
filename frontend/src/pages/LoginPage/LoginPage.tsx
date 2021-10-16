@@ -3,6 +3,7 @@ import * as Components from '../../components';
 import * as Actions from '../../store/actions';
 import { Message } from '../../utils/enums';
 import * as Rules from '../../utils/rules';
+import {RouteComponentProps, withRouter} from "react-router";
 
 import './LoginPage.scss';
 
@@ -12,13 +13,16 @@ enum Card {
     FORGOT_PASSWORD
 }
 
+type LoginPageProps = RouteComponentProps & {
+}
+
 interface LoginPageState {
     card: Card;
     statusMsgType: Message;
     statusMsg: string;
 }
 
-class LoginPage extends React.Component<any, LoginPageState> {
+class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 
     state = {
         card: Card.LOGIN,
@@ -44,8 +48,8 @@ class LoginPage extends React.Component<any, LoginPageState> {
             password: fields.password.value
         }
 
-        const response = Actions.SubmitActions.submitLogin(data);
-        console.log(response);
+        //const response = Actions.SubmitActions.submitLogin(data);
+        this.props.history.push('/id1');
     }
 
     onForgotPasswordSubmit = (e: BaseSyntheticEvent) => {
@@ -192,7 +196,7 @@ class LoginPage extends React.Component<any, LoginPageState> {
                 <div
                     key={this.state.card}
                     className='card abs-center login'>
-                    <div className='logo img'></div>
+                    {/*<div className='logo img'></div>*/}
                     <div className='logo title'>42Matcha</div>
                     {this.renderForm()}
                 </div>
@@ -201,7 +205,7 @@ class LoginPage extends React.Component<any, LoginPageState> {
     }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);
 
 const fields: any = {
     login: {

@@ -1,5 +1,7 @@
 @import '../../assets/styles/main.scss';
+
 .header {
+  background: white;
 
   &__container {
     width: 1320px;
@@ -26,7 +28,9 @@
       font-weight: bold;
       font-size: 18px;
       line-height: 60px;
-      color: $primary_color;
+      background: $primary-color;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     & div:nth-child(3) {
@@ -59,6 +63,8 @@
     color: white;
     text-align: center;
     line-height: 45px;
+    letter-spacing: 10px;
+    text-transform: uppercase;
   }
 
   &__nav {
@@ -73,6 +79,73 @@
       width: 100%;
       left: 0;
       bottom: 0;
+    }
+  }
+}
+
+.modal-login {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  transition: all 0.4s ease;
+  opacity: 1;
+  visibility: visible;
+
+  .card {
+    transition: all 0.4s ease;
+    &.abs-center {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  &__mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  &__close-btn {
+    position: absolute;
+    right: 18px;
+    top: 24px;
+    height: 40px;
+    width: 40px;
+    z-index: 11;
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  &__close-btn:hover {
+    opacity: 1;
+  }
+
+  &__close-btn:before, &__close-btn:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 30px;
+    width: 3px;
+    background-color: white;
+  }
+
+  &__close-btn:before {
+    transform: rotate(45deg);
+  }
+
+  &__close-btn:after {
+    transform: rotate(-45deg);
+  }
+
+  &_disabled {
+    opacity: 0;
+    visibility: hidden;
+
+    .card {
+      &.abs-center {
+        transform: translate(-50%, -50%) scale(0.4);
+      }
     }
   }
 }

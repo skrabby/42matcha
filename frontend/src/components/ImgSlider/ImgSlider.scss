@@ -1,13 +1,28 @@
+@import '../../assets/styles/main';
+
 .slider {
-  height: 500px;
+  position: relative;
+  height: 100vh;
   color: white;
   //=background-image: url(../../assets/img/slider-img-1.png);
-  background: url(../../assets/img/slider-img-1.png) no-repeat fixed center;
+  background: url(../../assets/img/background-road.png) no-repeat fixed center;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
 
+  //&::after {
+  //  content: '';
+  //  height: 100%;
+  //  width: 100%;
+  //  //background: $primary-color;
+  //  opacity: 0.5;
+  //  position: absolute;
+  //  z-index: 10;
+  //  top: 0;
+  //  left: 0;
+  //  display: block;
+  //}
 
   &__title {
     padding: 0 20px;

@@ -10,6 +10,7 @@ export default class Router extends React.Component {
             <Switch>
                 <Route exact path={Routes.HOME} component={Pages.HomePage} />
                 <Route exact path={Routes.LOGIN} component={Pages.LoginPage} />
+                <Route exact path={Routes.PROFILE} component={Pages.ProfilePage} />
             </Switch>
         );
     }

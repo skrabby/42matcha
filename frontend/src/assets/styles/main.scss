@@ -11,6 +11,35 @@ body {
   font-size: 14px;
 }
 
+.wrapper-page {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  min-height: 100vh;
+  min-width: 320px;
+}
+
+.content {
+  flex: 1 1 auto;
+
+  .container {
+    width: 1280px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 1360px) {
+      width: 960px;
+    }
+
+    @media screen and (max-width: 1060px) {
+      width: 640px;
+    }
+
+    @media screen and (max-width: 640px) {
+      width: 100%;
+    }
+  }
+}
+
 input:focus {
   outline: none;
 }
