@@ -1,14 +1,35 @@
 version: "3"
 services:
   postgres:
-    image: postgres:13.3
+    image: postgres:11.1
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_DB: "userdb"
+      POSTGRES_DB: "matcha"
       POSTGRES_USER: "user"
       POSTGRES_PASSWORD: "q1w2e3r4"
     ports:
       - "5432:5432"
+    restart: always
+    build:
+      context: ./postgres/
+      dockerfile: Dockerfile
 
+#  backend.facade:
+#    image: backend.facade
+#    container_name: backend.facade
+#    ports:
+#      - 8087:8087
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/matcha
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+#    restart: always
+#    build:
+#      context: ./backend.facade/
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - postgres
 #    build:
 #      context: ./postgres/
 #      dockerfile: Dockerfile
@@ -28,12 +49,12 @@ services:
 #      dockerfile: Dockerfile
 #    depends_on:
 #      - db
-  matcha-frontend:
-    image: matcha-frontend
-    container_name: matcha-frontend
-    ports:
-      - 3000:3000
-    restart: always
-    build:
-      context: ./frontend/
-      dockerfile: Dockerfile
+#  matcha-frontend:
+#    image: matcha-frontend
+#    container_name: matcha-frontend
+#    ports:
+#      - 3000:3000
+#    restart: always
+#    build:
+#      context: ./frontend/
+#      dockerfile: Dockerfile

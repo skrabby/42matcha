@@ -80,7 +80,7 @@ public class DBService {
             try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")) {
                 //Create TAG table
                 Statement statement = pgpool.createStatement();
-                statement.execute("create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);");
+//                statement.execute("create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);");
 
                 //Generate sqlRequest to insert tags from conf
                 String insertRequest = "INSERT INTO TAGS(TAG) VALUES ";
