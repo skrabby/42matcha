@@ -3,6 +3,8 @@ package fr.intra.services;
 import fr.intra.Utils;
 import fr.intra.user.User;
 import lombok.Data;
+import lombok.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -47,7 +49,7 @@ public class DBService {
     }
 
     private void initDBOfClientsGeneral(){
-        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/userdb?user=user&password=q1w2e3r4")) {
+        try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")) {
             //Create general table
             Statement statement = pgpool.createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS USERS(" +

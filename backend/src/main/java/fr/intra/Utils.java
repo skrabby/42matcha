@@ -24,12 +24,15 @@ public class Utils {
         return false;
     }
 
-    public static boolean selectEventBytes(String sql){
+    public static ResultSet selectEvent(String sql){
+        ResultSet resultSet;
         try(Connection pgpool = DriverManager.getConnection("jdbc:postgresql://localhost:5432/matcha?user=user&password=q1w2e3r4")){
+            Statement statement = pgpool.createStatement();
+            resultSet = statement.executeQuery(sql);
         } catch (Exception ex){
             ex.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return resultSet;
     }
 }
