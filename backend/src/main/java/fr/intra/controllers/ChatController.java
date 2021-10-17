@@ -1,25 +1,40 @@
 package fr.intra.controllers;
 
+import fr.intra.Utils;
 import fr.intra.messages.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.ResultSet;
 
 @Controller
 public class ChatController {
 
-	@RequestMapping("/usersChat")
-	public String index(HttpServletRequest request, Model model) {
-		String username = "test";
+	@RequestMapping("/usersChat/sender{sender_id}/recip{recip_id}")
+	public String index(HttpServletRequest request, Model model,
+						@PathVariable("sender_id") String senderID,
+						@PathVariable("recip_id") String recipientID) {
+		try {
+			ResultSet resultSet = Utils.selectEvent("select name from users where id = " + senderID);
 
-		model.addAttribute("username", username);
+			if (resultSet == null){
+				return "error";
+			}
+			resultSet.next();
+			String username = resultSet.getString(1);
 
-		return "chat";
+			model.addAttribute("username", username);
+			return "chat";
+		} catch (Exception ex){
+			ex.printStackTrace();
+			return "error";
+		}
 	}
 }

@@ -62,14 +62,14 @@ function onMessageReceived(payload) {
 
     var messageElement = document.createElement('li');
 
-        messageElement.classList.add('chat-message');   
-        var usernameElement = document.createElement('strong');
-        usernameElement.classList.add('nickname');
-        var usernameText = document.createTextNode(message.sender);
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
-    }
+    messageElement.classList.add('chat-message');
+    var usernameElement = document.createElement('strong');
+    usernameElement.classList.add('nickname');
+    var usernameText = document.createTextNode(message.sender);
+    var usernameText = document.createTextNode(message.sender);
+    usernameElement.appendChild(usernameText);
+    messageElement.appendChild(usernameElement);
+
 
     var textElement = document.createElement('span');
     var messageText = document.createTextNode(message.content);
