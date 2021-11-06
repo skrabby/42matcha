@@ -29,8 +29,13 @@ public class ChatController {
 			}
 			resultSet.next();
 			String username = resultSet.getString(1);
+			resultSet = Utils.selectEvent("select name from users where id = " + recipientID);
+			resultSet.next();
+			String recipname = resultSet.getString(1);
 
 			model.addAttribute("username", username);
+			model.addAttribute("recipname", recipname);
+			model.addAttribute("senderID", senderID);
 			return "chat";
 		} catch (Exception ex){
 			ex.printStackTrace();

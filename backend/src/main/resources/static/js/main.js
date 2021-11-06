@@ -8,15 +8,16 @@ var connectingElement = document.querySelector('#connecting');
 
 var stompClient = null;
 var username = null;
+var senderID = null;
  
 
 function connect() {
     username = document.querySelector('#username').innerText.trim();
+    senderID = document.querySelector('#senderID').innerText.trim();
      
-    var socket = new SockJS('/ws');
+    var socket = new SockJS("/ws");
     stompClient = Stomp.over(socket);
-
-    stompClient.connect({}, onConnected, onError);
+    stompClient.connect({}, onConnected(), onError);
 }
 
 // Connect to WebSocket Server.
@@ -24,15 +25,10 @@ connect();
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/publicChatRoom', onMessageReceived);
-
-    // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
-        {},
-        JSON.stringify({sender: username, type: 'JOIN'})
-    )
-
-    connectingElement.classList.add('hidden');
+     stompClient.subscribe(
+          "/user/" + senderID + "/queue/messages",
+          onMessageReceived
+        );
 }
 
 
@@ -45,12 +41,13 @@ function onError(error) {
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
     if(messageContent && stompClient) {
-        var chatMessage = {
+        var message = {
             sender: username,
             content: messageInput.value,
+            timestamp: new Date(),
             type: 'CHAT'
         };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat", {}, JSON.stringify(message));
         messageInput.value = '';
     }
     event.preventDefault();
