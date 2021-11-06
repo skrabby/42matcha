@@ -9,22 +9,23 @@ CREATE TABLE IF NOT EXISTS USERS
     description VARCHAR(500) DEFAULT '',
     gender      VARCHAR DEFAULT '',
     birthday    DATE,
-    popularity  int NOT NULL DEFAULT 0);
+    popularity  int NOT NULL DEFAULT 0,
+    latitude    VARCHAR(255),
+    longitude   VARCHAR(255),
+    avatar_url  VARCHAR(255));
 
 -- Contains all likes for users
 CREATE TABLE IF NOT EXISTS LIKES(
     id          BIGSERIAL PRIMARY KEY,
     liker_id    BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
     liked_id    BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
-    date        DATE NOT NULL);
+    date        DATE NOT NULL DEFAULT CURRENT_TIMESTAMP);
 
--- Users pictures
-
-CREATE TABLE IF NOT EXISTS USERS_PICTURES(
-    id          BIGSERIAL PRIMARY KEY,
-    user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
-    file_name   VARCHAR(255) NOT NULL,
-    is_avatar   BOOLEAN NOT NULL DEFAULT FALSE);
+-- ALL pictures users
+CREATE TABLE IF NOT EXISTS PICTURES(
+    id      BIGSERIAL PRIMARY KEY,
+    url     VARCHAR(255) NOT NULL,
+    user_id BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE);
 
 -- Contains all tags in system
 CREATE TABLE IF NOT EXISTS TAGS(
@@ -32,12 +33,10 @@ CREATE TABLE IF NOT EXISTS TAGS(
     tag         VARCHAR(50) NOT NULL);
 
 -- USER TAGS
-
-CREATE TABLE IF NOT EXISTS USERS_TAGS(
+CREATE TABLE IF NOT EXISTS USER_TAGS(
     id          BIGSERIAL PRIMARY KEY,
     user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
     tag_id      BIGSERIAL REFERENCES TAGS(id) ON DELETE CASCADE);
-
 
 -- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
 
