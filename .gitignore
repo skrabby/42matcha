@@ -8,3 +8,7 @@ frontend/build
 # backend.authrorization
 backend.authorization/node_modules
 backend.authorization/dist
+
+# backend
+backend/target
+backend/backend.iml

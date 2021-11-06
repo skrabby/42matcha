@@ -14,7 +14,7 @@ services:
     build:
       context: ./postgres/
       dockerfile: Dockerfile
-
+#
 #  backend:
 #    image: backend
 #    container_name: backend

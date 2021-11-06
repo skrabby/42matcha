@@ -1,17 +1,29 @@
-CREATE TABLE IF NOT EXISTS USERS(
-    ID serial primary key,
-    NAME VARCHAR NOT NULL,
-    EMAIL VARCHAR UNIQUE,
-    SEXPREF VARCHAR DEFAULT '',
-    BIOGRAPHY TEXT DEFAULT '',
-    GENDER VARCHAR DEFAULT '',
-    PICT1 bytea DEFAULT '\\000',
-    PICT2 bytea DEFAULT '\\000',
-    PICT3 bytea DEFAULT '\\000',
-    PICT4 bytea DEFAULT '\\000',
-    PICT5 bytea DEFAULT '\\000');
+CREATE TABLE IF NOT EXISTS USERS
+(
+    id          BIGSERIAL PRIMARY KEY UNIQUE NOT NULL,
+    email       VARCHAR(100) UNIQUE NOT NULL,
+    password    VARCHAR NOT NULL,
+    name        VARCHAR(100) NOT NULL,
+    orientation VARCHAR(50) DEFAULT '',
+    description VARCHAR(500) DEFAULT '',
+    gender      VARCHAR DEFAULT '',
+    pic1        BYTEA DEFAULT '\\000',
+    pic2        BYTEA DEFAULT '\\000',
+    pic3        BYTEA DEFAULT '\\000',
+    pic4        BYTEA DEFAULT '\\000',
+    pic5        BYTEA DEFAULT '\\000'
+);
 
-create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
+INSERT INTO USERS (email, password, name, orientation, description, gender) VALUES (
+                'ductruong1802@gmail.com',
+                '$2a$10$RZgG.3lUz7NmycW9i4EFz.YQ.oqdti7lQhFICWZZlQmN2Vmfaj/Cy', -- 'password'
+                'Duc',
+                'HETERO',
+                'Very handsome!',
+                'MALE') ON CONFLICT DO NOTHING;
+
+
+-- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
 
 
 
