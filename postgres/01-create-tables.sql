@@ -1,3 +1,4 @@
+-- General table for users
 CREATE TABLE IF NOT EXISTS USERS
 (
     id          BIGSERIAL PRIMARY KEY UNIQUE NOT NULL,
@@ -7,20 +8,35 @@ CREATE TABLE IF NOT EXISTS USERS
     orientation VARCHAR(50) DEFAULT '',
     description VARCHAR(500) DEFAULT '',
     gender      VARCHAR DEFAULT '',
-    pic1        BYTEA DEFAULT '\\000',
-    pic2        BYTEA DEFAULT '\\000',
-    pic3        BYTEA DEFAULT '\\000',
-    pic4        BYTEA DEFAULT '\\000',
-    pic5        BYTEA DEFAULT '\\000'
-);
+    birthday    DATE,
+    popularity  int NOT NULL DEFAULT 0);
 
-INSERT INTO USERS (email, password, name, orientation, description, gender) VALUES (
-                'ductruong1802@gmail.com',
-                '$2a$10$RZgG.3lUz7NmycW9i4EFz.YQ.oqdti7lQhFICWZZlQmN2Vmfaj/Cy', -- 'password'
-                'Duc',
-                'HETERO',
-                'Very handsome!',
-                'MALE') ON CONFLICT DO NOTHING;
+-- Contains all likes for users
+CREATE TABLE IF NOT EXISTS LIKES(
+    id          BIGSERIAL PRIMARY KEY,
+    liker_id    BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
+    liked_id    BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
+    date        DATE NOT NULL);
+
+-- Users pictures
+
+CREATE TABLE IF NOT EXISTS USERS_PICTURES(
+    id          BIGSERIAL PRIMARY KEY,
+    user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
+    file_name   VARCHAR(255) NOT NULL,
+    is_avatar   BOOLEAN NOT NULL DEFAULT FALSE);
+
+-- Contains all tags in system
+CREATE TABLE IF NOT EXISTS TAGS(
+    id          BIGSERIAL PRIMARY KEY,
+    tag         VARCHAR(50) NOT NULL);
+
+-- USER TAGS
+
+CREATE TABLE IF NOT EXISTS USERS_TAGS(
+    id          BIGSERIAL PRIMARY KEY,
+    user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
+    tag_id      BIGSERIAL REFERENCES TAGS(id) ON DELETE CASCADE);
 
 
 -- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
