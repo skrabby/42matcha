@@ -38,6 +38,9 @@ CREATE TABLE IF NOT EXISTS USER_TAGS(
     user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE,
     tag_id      BIGSERIAL REFERENCES TAGS(id) ON DELETE CASCADE);
 
+-- Generate General tags
+insert  into tags (tag) values ('Music'), ('Sleep'), ('Run');
+
 -- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
 
 

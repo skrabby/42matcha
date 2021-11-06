@@ -1,7 +1,7 @@
 package fr.intra.controllers;
 
-import fr.intra.Utils;
 import fr.intra.messages.Message;
+import fr.intra.util.Utils;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;

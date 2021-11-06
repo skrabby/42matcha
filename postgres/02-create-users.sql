@@ -31,3 +31,6 @@ INSERT INTO USERS (email, password, name, orientation, description, gender) VALU
                 'HETERO',
                 'Very handsome!',
                 'MALE') ON CONFLICT DO NOTHING;
+
+--Add some tags
+insert into user_tags (user_id, tag_id) values (1,2), (1,3), (2,1), (2,2)

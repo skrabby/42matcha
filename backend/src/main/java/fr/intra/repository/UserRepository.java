@@ -21,11 +21,12 @@ public class UserRepository {
 
     public User findById(Long id) {
         User user = null;
-        String SQL = String.format("SELECT * FROM %s WHERE id='%s'", USERS, id);
+        String SQL = String.format("SELECT * FROM %s WHERE id=?", USERS);
 
         try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
-            Statement statement = pgPool.createStatement();
-            ResultSet rs = statement.executeQuery(SQL);
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setLong(1, id);
+            ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 user = buildUserFromRs(rs);
             }
@@ -37,11 +38,12 @@ public class UserRepository {
 
     public User findByEmail(String email) {
         User user = null;
-        String SQL = String.format("SELECT * FROM %s WHERE email='%s'", USERS, email);
+        String SQL = String.format("SELECT * FROM %s WHERE email=?", USERS);
 
         try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
-            Statement statement = pgPool.createStatement();
-            ResultSet rs = statement.executeQuery(SQL);
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 user = buildUserFromRs(rs);
             }
@@ -56,8 +58,8 @@ public class UserRepository {
         String SQL = String.format("SELECT * FROM %s", USERS);
 
         try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
-            Statement statement = pgPool.createStatement();
-            ResultSet rs = statement.executeQuery(SQL);
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 User user = buildUserFromRs(rs);
                 userList.add(user);
