@@ -19,7 +19,7 @@ public class MailService {
         try {
             new MailSender("regmatcha42@mail.ru", "xjVu2yZuyuSDhgpNxrTd", smtpProperties.getProperties())
                     .send("Registration in Matcha",
-                            String.format("Welcome to Matcha 42! \n Confirm you email: http://localhost:8080/%s/%s", secretKey, email),
+                            String.format("Welcome to Matcha 42! \n Confirm you email: http://localhost:8080/confirm/%s/%s", secretKey, email),
                             "regmatcha42@mail.ru",
                             email);
         } catch (Exception ex){

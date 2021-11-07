@@ -18,6 +18,7 @@ import java.util.Random;
 public class RegRepository {
     private final PgProperties pgProperties;
     private static final String REG_EMAILS = "REG_EMAILS";
+    private static final String USERS = "USERS";
 
     @Autowired
     public RegRepository(PgProperties pgProperties) {
@@ -26,22 +27,41 @@ public class RegRepository {
 
 
     public ResponseEntity<?> confirmEmail(String secretKey, String email) {
-        String SQL = String.format("SELECT email FROM %s WHERE secret_key = ? AND email = ?", REG_EMAILS);
-        ArrayList<Long> result = new ArrayList<>();
+        String SQL = String.format("SELECT * FROM %s WHERE secret_key = ? AND email = ?", REG_EMAILS);
+        User user = new User();
 
-        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
-            PreparedStatement statement = pgPool.prepareStatement(SQL);
+        //Check Emails in registration table
+        try (Connection regPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = regPool.prepareStatement(SQL);
             statement.setString(1, secretKey);
             statement.setString(2, email);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                result.add(Long.parseLong(rs.getString("email")));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setName(rs.getString("name"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        if (result.size() == 1)
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        if (user.getEmail() != null) {
+            //If email find then insert new client in USERS
+            SQL = String.format("INSERT INTO %s (name, email, password) VALUES (?, ?, ?)",
+                    USERS);
+
+            try (Connection regPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+                PreparedStatement statement = regPool.prepareStatement(SQL);
+                statement.setString(1, user.getName());
+                statement.setString(2, user.getEmail());
+                statement.setString(3, user.getPassword());
+                if (statement.executeUpdate() > 0)
+                    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
