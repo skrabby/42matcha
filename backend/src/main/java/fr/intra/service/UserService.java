@@ -29,4 +29,8 @@ public class UserService {
     public User findByEmail(String email){
         return userRepository.findByEmail(email);
     }
+
+    public boolean updateUserProfile(User user) {
+        return userRepository.updateUserProfile(user);
+    }
 }

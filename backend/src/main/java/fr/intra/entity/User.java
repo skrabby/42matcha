@@ -18,4 +18,5 @@ public class User {
     private String orientation;
     private String description;
     private ArrayList<String> tags;
+    private String token;
 }

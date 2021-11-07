@@ -81,4 +81,24 @@ public class UserRepository {
                 .description(rs.getString("description"))
                 .build();
     }
+
+    public boolean updateUserProfile(User user) {
+        String SQL = String.format("UPDATE %s " +
+                        "SET name = ?,gender = ?,orientation = ?,description = ?" +
+                        "WHERE id=?", USERS);
+        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getGender());
+            statement.setString(3, user.getOrientation());
+            statement.setString(4, user.getDescription());
+            statement.setLong(5, user.getId());
+            if (statement.executeUpdate() > 0)
+                return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return false;
+    }
 }
