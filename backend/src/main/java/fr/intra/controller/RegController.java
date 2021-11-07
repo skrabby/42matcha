@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.transaction.Transactional;
 
@@ -26,8 +27,10 @@ public class RegController {
     }
 
     @GetMapping("confirm/{secret_key}/{email}")
-    public ResponseEntity<?> confirmEmail(@PathVariable("secret_key") String secretKey,
-                                          @PathVariable("email") String email) {
-        return regService.confirmEmail(secretKey, email);
+    public RedirectView confirmEmail(@PathVariable("secret_key") String secretKey,
+                                     @PathVariable("email") String email) {
+        if (regService.confirmEmail(secretKey, email).equals(new ResponseEntity<>(HttpStatus.ACCEPTED)))
+            return new RedirectView("http://localhost:8080/");
+        return new RedirectView("http://localhost:8080/error");
     }
 }
