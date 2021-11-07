@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS LIKES(
 
 -- ALL pictures users
 CREATE TABLE IF NOT EXISTS PICTURES(
-    id      BIGSERIAL PRIMARY KEY,
-    url     VARCHAR(255) NOT NULL,
-    user_id BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE);
+    id          BIGSERIAL PRIMARY KEY,
+    url         VARCHAR(255) NOT NULL,
+    user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE CASCADE);
 
 -- Contains all tags in system
 CREATE TABLE IF NOT EXISTS TAGS(
@@ -40,6 +40,13 @@ CREATE TABLE IF NOT EXISTS USER_TAGS(
 
 -- Generate General tags
 insert  into tags (tag) values ('Music'), ('Sleep'), ('Run');
+
+--Table for confirm email
+CREATE TABLE IF NOT EXISTS REG_EMAILS(
+    email       VARCHAR(255) UNIQUE,
+    name        VARCHAR(255),
+    password    VARCHAR(255),
+    secret_key  VARCHAR(255));
 
 -- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
 
