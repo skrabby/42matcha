@@ -101,4 +101,44 @@ public class UserRepository {
         }
         return false;
     }
+
+    public List<User> findPartners(String email) {
+        List<User> partners = new ArrayList<>();
+        String SQL = String.format("SELECT * FROM %s WHERE email != ? AND orientation = ?", USERS);
+
+        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setString(1, email);
+            statement.setString(2, "BISEXUAL");
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                partners.add(buildUserFromRs(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return partners;
+    }
+
+    public List<User> findPartners(String orientation, String gender, String email) {
+        List<User> partners = new ArrayList<>();
+        String SQL = String.format("SELECT * FROM %s WHERE email != ? AND orientation = ? AND gender = ?", USERS);
+
+        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setString(1, email);
+            statement.setString(2, orientation);
+            if (orientation.equals("HETERO"))
+                statement.setString(3, gender.equals("MALE")? "FEMALE" : "MALE");
+            else
+                statement.setString(3, gender.equals("MALE")? "MALE" : "FEMALE");
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                partners.add(buildUserFromRs(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return partners;
+    }
 }

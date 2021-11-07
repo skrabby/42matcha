@@ -36,7 +36,7 @@ public class LikesRepository {
     }
 
     //Check matches
-    private boolean checkMatch(long id1, long id2){
+    public boolean checkMatch(long id1, long id2){
         String SQL = String.format("SELECT id FROM %s WHERE liker_id=? AND liked_id=?", LIKES);
         ArrayList<Long> result = new ArrayList<>();
 
@@ -79,6 +79,4 @@ public class LikesRepository {
         }
         return result;
     }
-
-
 }
