@@ -3,6 +3,7 @@ package fr.intra.controller;
 import fr.intra.entity.User;
 import fr.intra.exception.JWTException;
 import fr.intra.service.AuthService;
+import fr.intra.service.TagsService;
 import fr.intra.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,23 +19,28 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final AuthService authService;
+    private final TagsService tagsService;
 
     @Autowired
-    public UserController(UserService userService, AuthService authService){
+    public UserController(UserService userService, AuthService authService, TagsService tagsService){
         this.userService = userService;
         this.authService = authService;
+        this.tagsService = tagsService;
     }
 
     @PostMapping("profile")
     @ResponseBody
-    public User getUserFromToken(@RequestBody String token) {
+    public User getUserFromToken(@RequestBody User token) {
+        User user;
         long id;
         try {
-            id = authService.getUserId(token);
+            id = authService.getUserId(token.getToken());
         } catch (JWTException ex){
             return null;
         }
-        return userService.findById(id);
+        user = userService.findById(id);
+        user.setTags(tagsService.findAllTagsById(id));
+        return user;
     }
 
     @PostMapping("update")
@@ -53,10 +59,10 @@ public class UserController {
 
     @PostMapping("findPartner")
     @ResponseBody
-    public List<User> getPartners(@RequestBody String token){
+    public List<User> getPartners(@RequestBody User token){
         long id;
         try {
-            id = authService.getUserId(token);
+            id = authService.getUserId(token.getToken());
         } catch (JWTException ex){
             return null;
         }

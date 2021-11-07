@@ -4,6 +4,7 @@ import com.sun.javafx.scene.control.behavior.SliderBehavior;
 import fr.intra.entity.User;
 import fr.intra.repository.LikesRepository;
 import fr.intra.repository.UserRepository;
+import fr.intra.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,8 @@ public class UserService {
             partners = userRepository.findPartners(user.getOrientation(), user.getGender(), user.getEmail());
         for (int i = 0; i < partners.size(); i++) {
             if(!(likesRepository.checkMatch(id, partners.get(i).getId())))
+                partners.remove(i);
+            else if (!(Utils.checkAge(user.getBirthday(), partners.get(i).getBirthday())))
                 partners.remove(i);
         }
         return partners;

@@ -3,6 +3,7 @@ package fr.intra.entity;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +18,11 @@ public class User {
     private String gender;
     private String orientation;
     private String description;
-    private ArrayList<String> tags;
+    private List<String> tags;
     private String token;
+    private String birthday;
+    private int popularity;
+    private String latitude;
+    private String longitude;
+    private String avatar_url;
 }

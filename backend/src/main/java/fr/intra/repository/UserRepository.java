@@ -79,6 +79,11 @@ public class UserRepository {
                 .gender(rs.getString("gender"))
                 .orientation(rs.getString("orientation"))
                 .description(rs.getString("description"))
+                .birthday(rs.getString("birthday"))
+                .popularity(rs.getInt("popularity"))
+                .latitude(rs.getString("latitude"))
+                .longitude(rs.getString("longitude"))
+                .avatar_url(rs.getString("avatar_url"))
                 .build();
     }
 

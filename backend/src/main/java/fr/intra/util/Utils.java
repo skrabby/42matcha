@@ -1,12 +1,14 @@
 package fr.intra.util;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.*;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utils {
 
@@ -34,5 +36,21 @@ public class Utils {
             return null;
         }
         return resultSet;
+    }
+
+    public static boolean checkAge(String date1, String date2){
+        try {
+            SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+            Date firstDate = parser.parse(date1);
+            Date secondDate = parser.parse(date2);
+
+            // 3 years
+            if(Math.abs(firstDate.getTime()-secondDate.getTime()) > (94608000000L))
+                return false;
+            return true;
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
 }
