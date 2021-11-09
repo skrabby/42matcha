@@ -3,12 +3,17 @@ package fr.intra.util;
 
 
 
+import fr.intra.entity.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Utils {
 
@@ -51,6 +56,48 @@ public class Utils {
         } catch (Exception ex){
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    public static boolean checkLocation(User user1, User user2) {
+        try {
+            double x1 = Double.parseDouble(user1.getLatitude());
+            double x2 = Double.parseDouble(user2.getLatitude());
+            double y1 = Double.parseDouble(user1.getLongitude());
+            double y2 = Double.parseDouble(user2.getLongitude());
+
+            double result = Math.sqrt(pow2(x1 - x2) + pow2(y1 - y2));
+            if (result * 111.111 < 5) {
+                return true;
+            }
+            return false;
+        }
+        catch (Exception ex){
+            return false;
+        }
+    }
+
+    private static double pow2(double base){
+        return Math.pow(base, 2);
+    }
+
+    public static int checkOverlap(User r1, User r2, User user) {
+        try {
+            List<String> r1Tags = r1.getTags();
+            List<String> r2Tags = r2.getTags();
+            List<String> result1 = new ArrayList<>();
+            List<String> result2 = new ArrayList<>();
+            for (int i = 0; i < r1Tags.size(); i++) {
+                result1.add(r1Tags.get(i));
+            }
+            for (int i = 0; i < r2Tags.size(); i++) {
+                result2.add(r2Tags.get(i));
+            }
+            result1.retainAll(user.getTags());
+            result2.retainAll(user.getTags());
+            return result2.size() - result1.size();
+        } catch (Exception ex){
+            return 0;
         }
     }
 }

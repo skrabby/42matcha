@@ -19,13 +19,11 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final AuthService authService;
-    private final TagsService tagsService;
 
     @Autowired
     public UserController(UserService userService, AuthService authService, TagsService tagsService){
         this.userService = userService;
         this.authService = authService;
-        this.tagsService = tagsService;
     }
 
     @PostMapping("profile")
@@ -39,7 +37,6 @@ public class UserController {
             return null;
         }
         user = userService.findById(id);
-        user.setTags(tagsService.findAllTagsById(id));
         return user;
     }
 

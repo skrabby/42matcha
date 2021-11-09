@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS USERS
     orientation VARCHAR(50) DEFAULT '',
     description VARCHAR(500) DEFAULT '',
     gender      VARCHAR DEFAULT '',
-    birthday    DATE,
+    birthday    VARCHAR(11) DEFAULT('1970-01-01'),
     popularity  int NOT NULL DEFAULT 0,
     latitude    VARCHAR(255),
     longitude   VARCHAR(255),

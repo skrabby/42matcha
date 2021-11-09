@@ -13,10 +13,12 @@ import java.util.List;
 public class UserRepository {
     private final PgProperties pgProperties;
     private static final String USERS = "USERS";
+    private final TagsRepository tagsRepository;
 
     @Autowired
-    public UserRepository(PgProperties pgProperties) {
+    public UserRepository(PgProperties pgProperties, TagsRepository tagsRepository) {
         this.pgProperties = pgProperties;
+        this.tagsRepository = tagsRepository;
     }
 
     public User findById(Long id) {
@@ -33,6 +35,7 @@ public class UserRepository {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        user.setTags(tagsRepository.findAllTagsById(id));
         return user;
     }
 
@@ -50,6 +53,7 @@ public class UserRepository {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        user.setTags(tagsRepository.findAllTagsById(user.getId()));
         return user;
     }
 
@@ -62,6 +66,7 @@ public class UserRepository {
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 User user = buildUserFromRs(rs);
+                user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 userList.add(user);
             }
         } catch (SQLException ex) {
@@ -117,7 +122,9 @@ public class UserRepository {
             statement.setString(2, "BISEXUAL");
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
-                partners.add(buildUserFromRs(rs));
+                User user = buildUserFromRs(rs);
+                user.setTags(tagsRepository.findAllTagsById(user.getId()));
+                partners.add(user);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -139,7 +146,9 @@ public class UserRepository {
                 statement.setString(3, gender.equals("MALE")? "MALE" : "FEMALE");
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
-                partners.add(buildUserFromRs(rs));
+                User user = buildUserFromRs(rs);
+                user.setTags(tagsRepository.findAllTagsById(user.getId()));
+                partners.add(user);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

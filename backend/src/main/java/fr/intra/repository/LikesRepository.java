@@ -37,7 +37,7 @@ public class LikesRepository {
 
     //Check matches
     public boolean checkMatch(long id1, long id2){
-        String SQL = String.format("SELECT id FROM %s WHERE liker_id=? AND liked_id=?", LIKES);
+        String SQL = String.format("SELECT id FROM %s WHERE liker_id = ? AND liked_id = ?", LIKES);
         ArrayList<Long> result = new ArrayList<>();
 
         try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
@@ -58,7 +58,7 @@ public class LikesRepository {
                 return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return false;
+            return true;
         }
         return false;
     }

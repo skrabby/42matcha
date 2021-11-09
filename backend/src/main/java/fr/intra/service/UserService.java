@@ -3,14 +3,13 @@ package fr.intra.service;
 import com.sun.javafx.scene.control.behavior.SliderBehavior;
 import fr.intra.entity.User;
 import fr.intra.repository.LikesRepository;
+import fr.intra.repository.TagsRepository;
 import fr.intra.repository.UserRepository;
 import fr.intra.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -19,7 +18,9 @@ public class UserService {
     private final AuthService authService;
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthService authService, LikesRepository likesRepository) {
+    public UserService(UserRepository userRepository,
+                       AuthService authService,
+                       LikesRepository likesRepository) {
         this.userRepository = userRepository;
         this.likesRepository = likesRepository;
         this.authService = authService;
@@ -49,11 +50,26 @@ public class UserService {
         else
             partners = userRepository.findPartners(user.getOrientation(), user.getGender(), user.getEmail());
         for (int i = 0; i < partners.size(); i++) {
-            if(!(likesRepository.checkMatch(id, partners.get(i).getId())))
+            if(likesRepository.checkMatch(id, partners.get(i).getId()))
                 partners.remove(i);
             else if (!(Utils.checkAge(user.getBirthday(), partners.get(i).getBirthday())))
                 partners.remove(i);
+//            else if (!(Utils.checkLocation(user, partners.get(i))))
+//                partners.remove(i);
         }
+        Collections.sort(partners, new Comparator<User>() {
+
+            @Override
+            public int compare(User r1, User r2) {
+                int result = Utils.checkOverlap(r1, r2, user);
+                if(result != 0) {
+                    return result;
+                }else{
+                return Integer.valueOf(r1.getPopularity()).compareTo(Integer.valueOf(r2.getPopularity()));
+                }
+            }
+        });
+
         return partners;
     }
 }

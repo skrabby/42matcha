@@ -5,24 +5,27 @@ declare
 begin
 	for i in 1..20
 	loop
-	INSERT INTO USERS (email, password, name, orientation, description, gender) VALUES (
+	INSERT INTO USERS (email, password, name, orientation, description, gender, birthday) VALUES (
                 'girl'||i||'@gmail.com',
                 '$2a$10$RZgG.3lUz7NmycW9i4EFz.YQ.oqdti7lQhFICWZZlQmN2Vmfaj/Cy', -- 'password'
                 'girl'||i,
                 'HETERO',
                 'Very handsome!',
-                'FEMALE') ON CONFLICT DO NOTHING;
+                'FEMALE',
+                '1996-05-'||LPAD(i::VARCHAR(2),2,'0')) ON CONFLICT DO NOTHING;
 
-	INSERT INTO USERS (email, password, name, orientation, description, gender) VALUES (
+	INSERT INTO USERS (email, password, name, orientation, description, gender, birthday) VALUES (
                 'man'||i||'@gmail.com',
                 '$2a$10$RZgG.3lUz7NmycW9i4EFz.YQ.oqdti7lQhFICWZZlQmN2Vmfaj/Cy', -- 'password'
                 'man'||i,
                 'HETERO',
                 'Very handsome!',
-                'MALE') ON CONFLICT DO NOTHING;
+                'MALE',
+                '1995-05-'||LPAD(i::VARCHAR(2),2,'0')) ON CONFLICT DO NOTHING;
 	end  loop;
 end
 $do$;
+
 
 INSERT INTO USERS (email, password, name, orientation, description, gender) VALUES (
                 'ductruong1802@gmail.com',
