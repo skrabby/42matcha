@@ -3,6 +3,9 @@ package fr.intra.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import fr.intra.entity.User;
+import fr.intra.exception.JWTException;
+import fr.intra.service.AuthService;
 import fr.intra.service.FilesStorageService;
 import fr.intra.util.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,24 +20,30 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 
 @Controller
-@CrossOrigin("http://localhost:8081")
 public class FilesController {
 
     @Autowired
     FilesStorageService storageService;
 
-    @PutMapping("/{id}/{pictureNum}/upload")
+    @Autowired
+    AuthService  authService;
+
+    @PutMapping("upload/{pictureNum}")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
-                                        @PathVariable long id,
+                                        @RequestHeader("Token") String token,
                                         @PathVariable int pictureNum) {
-        String message = "";
+        long userID;
         try {
-            storageService.save(file, id + "_" + pictureNum);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            userID = authService.getUserId(token);
+        } catch (JWTException ex) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+
+        try {
+            storageService.save(file, userID + "_" + pictureNum);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -28,11 +28,11 @@ public class UserController {
 
     @PostMapping("profile")
     @ResponseBody
-    public User getUserFromToken(@RequestBody User token) {
+    public User getUserFromToken(@RequestHeader String token) {
         User user;
         long id;
         try {
-            id = authService.getUserId(token.getToken());
+            id = authService.getUserId(token);
         } catch (JWTException ex){
             return null;
         }
@@ -56,10 +56,10 @@ public class UserController {
 
     @PostMapping("findPartner")
     @ResponseBody
-    public List<User> getPartners(@RequestBody User token){
+    public List<User> getPartners(@RequestHeader String token){
         long id;
         try {
-            id = authService.getUserId(token.getToken());
+            id = authService.getUserId(token);
         } catch (JWTException ex){
             return null;
         }
