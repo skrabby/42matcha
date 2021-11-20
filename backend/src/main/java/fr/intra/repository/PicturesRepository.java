@@ -44,9 +44,11 @@ public class PicturesRepository {
             statement.setLong(1, Long.valueOf(id));
             statement.setString(2, path);
             statement.setInt(3,Integer.valueOf(pictureNum));
-            statement.executeQuery();
+            statement.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            if(ex.toString().contains
+                    ("ERROR: duplicate key value violates unique constraint \"pictures_url_key\""))
+                return true;
             return false;
         }
         return true;
