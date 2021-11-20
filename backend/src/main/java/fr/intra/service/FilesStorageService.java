@@ -103,4 +103,7 @@ public class FilesStorageService {
         }
     }
 
+    public String getPicture(long userID, int pictureNum) {
+        return picturesService.getPicture(userID, pictureNum);
+    }
 }

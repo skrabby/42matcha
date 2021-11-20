@@ -49,17 +49,22 @@ public class FilesController {
         }
     }
 
-    @GetMapping("/files")
-    public ResponseEntity<List<FileInfo>> getListFiles() {
-        List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
-            String filename = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder
-                    .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
+    @GetMapping("/picture/{pictureNum}")
+    @ResponseBody
+    public FileInfo getPicture(@RequestHeader("Token") String token,
+                              @PathVariable int pictureNum) {
+        long userID = 3L;
+//        try {
+//            userID = authService.getUserId(token);
+//        } catch (JWTException ex) {
+//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//        }
 
-            return new FileInfo(filename, url);
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
+        try{
+            return new FileInfo(String.valueOf(userID), storageService.getPicture(userID, pictureNum));
+        }  catch (Exception ex) {
+            return null;
+        }
     }
 
     @GetMapping("/files/{filename:.+}")

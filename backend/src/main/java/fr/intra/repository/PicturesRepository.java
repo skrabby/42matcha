@@ -36,6 +36,7 @@ public class PicturesRepository {
         return result;
     }
 
+
     public boolean save(String id, String path, String pictureNum) {
         String SQL = String.format("INSERT INTO %s (user_id, url, picture_num) VALUES (?, ?, ?)",
                 PICTURES);
@@ -52,5 +53,21 @@ public class PicturesRepository {
             return false;
         }
         return true;
+    }
+
+    public String findPicture(long userID, int pictureNum) {
+        String SQL = String.format("SELECT url FROM %s WHERE user_id=? AND picture_num=?",  PICTURES);
+
+        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setLong(1, userID);
+            statement.setInt(2,  pictureNum);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return rs.getString(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }

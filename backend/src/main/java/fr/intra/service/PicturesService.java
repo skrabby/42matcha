@@ -31,4 +31,8 @@ public class PicturesService {
     public String getDestination(){
         return destination;
     }
+
+    public String getPicture(long userID, int pictureNum) {
+        return  picturesRepository.findPicture(userID, pictureNum);
+    }
 }
