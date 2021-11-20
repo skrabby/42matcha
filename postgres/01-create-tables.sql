@@ -50,5 +50,9 @@ CREATE TABLE IF NOT EXISTS REG_EMAILS(
 
 -- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
 
-
-
+--Table for pictures system
+CREATE TABLE IF NOT EXISTS PICTURES(
+    id          BIGSERIAL PRIMARY KEY,
+    user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE cascade,
+    url         VARCHAR(255),
+    picture_num int NOT NULL DEFAULT 0);

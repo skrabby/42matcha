@@ -32,16 +32,18 @@ public class FilesController {
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestHeader("Token") String token,
                                         @PathVariable int pictureNum) {
-        long userID;
-        try {
-            userID = authService.getUserId(token);
-        } catch (JWTException ex) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+        long userID = 3L;
+//        try {
+//            userID = authService.getUserId(token);
+//        } catch (JWTException ex) {
+//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//        }
 
         try {
-            storageService.save(file, userID + "_" + pictureNum);
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (storageService.save(file, userID + "_" + pictureNum))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

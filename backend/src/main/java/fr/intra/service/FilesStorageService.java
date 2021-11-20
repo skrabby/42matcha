@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesStorageService {
     private final Path root;
 
-    public FilesStorageService(){
-        this.root = Paths.get("uploads");
+    @Autowired
+    PicturesService picturesService;
+
+    public FilesStorageService(PicturesService picturesService){
+        this.picturesService = picturesService;
+        this.root = Paths.get(picturesService.getDestination());
         this.init();
     }
 
@@ -33,7 +38,7 @@ public class FilesStorageService {
     }
 
     public Path initUserDirectory(String url){
-        Path pathUrl = Paths.get("uploads/" + url);
+        Path pathUrl = Paths.get(picturesService.getDestination() + url);
         try {
             Files.createDirectory(pathUrl);
             return pathUrl;
@@ -42,20 +47,31 @@ public class FilesStorageService {
         }
     }
 
-    public void save(MultipartFile file, String fileName){
-        Path path = initUserDirectory(fileName.split("_")[0]);
+    public boolean save(MultipartFile file, String fileName) {
+        String id = fileName.split("_")[0];
+        String pictureNum = fileName.split("_")[1];
+        Path path = initUserDirectory(id);
         String[] exp = file.getOriginalFilename().split("\\.");
         try {
-            Files.copy(file.getInputStream(), path.resolve(fileName +  "." + exp[exp.length - 1]));
+            Files.copy(file.getInputStream(), path.resolve(fileName + "." + exp[exp.length - 1]));
+            if (!(picturesService.savePictureToDB(id, pictureNum, exp[exp.length - 1]))) {
+                Files.delete(path.resolve(fileName + "." + exp[exp.length - 1]));
+                return false;
+            }
+            return true;
         } catch (Exception e) {
             try {
                 Files.delete(path.resolve(fileName + "." + exp[exp.length - 1]));
                 Files.copy(file.getInputStream(), path.resolve(fileName + "." + exp[exp.length - 1]));
-            }
-            catch (IOException ex){
-                return;
+                if (!(picturesService.savePictureToDB(id, pictureNum, exp[exp.length - 1]))) {
+                    Files.delete(path.resolve(fileName + "." + exp[exp.length - 1]));
+                    return false;
+                }
+            } catch (IOException ex) {
+                return false;
             }
         }
+        return true;
     }
 
 
