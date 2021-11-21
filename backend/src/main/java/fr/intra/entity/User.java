@@ -24,4 +24,5 @@ public class User {
     private String latitude;
     private String longitude;
     private String avatar_url;
+    private List<String> pictures;
 }

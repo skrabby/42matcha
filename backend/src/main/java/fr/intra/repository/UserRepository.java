@@ -14,11 +14,15 @@ public class UserRepository {
     private final PgProperties pgProperties;
     private static final String USERS = "USERS";
     private final TagsRepository tagsRepository;
+    private final PicturesRepository picturesRepository;
 
     @Autowired
-    public UserRepository(PgProperties pgProperties, TagsRepository tagsRepository) {
+    public UserRepository(PgProperties pgProperties,
+                          TagsRepository tagsRepository,
+                          PicturesRepository picturesRepository) {
         this.pgProperties = pgProperties;
         this.tagsRepository = tagsRepository;
+        this.picturesRepository = picturesRepository;
     }
 
     public User findById(Long id) {
@@ -36,6 +40,7 @@ public class UserRepository {
             ex.printStackTrace();
         }
         user.setTags(tagsRepository.findAllTagsById(id));
+        user.setPictures(picturesRepository.getPicturesById(id));
         return user;
     }
 

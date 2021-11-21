@@ -57,7 +57,6 @@ public class PicturesRepository {
 
     public String findPicture(long userID, int pictureNum) {
         String SQL = String.format("SELECT url FROM %s WHERE user_id=? AND picture_num=?",  PICTURES);
-
         try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setLong(1, userID);
@@ -65,6 +64,22 @@ public class PicturesRepository {
             ResultSet rs = statement.executeQuery();
             rs.next();
             return rs.getString(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<String> getPicturesById(Long userID) {
+        List<String> result = new ArrayList<>();
+        String SQL = String.format("SELECT url FROM %s WHERE user_id=?", PICTURES);
+        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setLong(1, userID);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+                result.add(rs.getString(1));
+            return result;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
