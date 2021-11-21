@@ -54,8 +54,8 @@ public class UserService {
                 partners.remove(i);
             else if (!(Utils.checkAge(user.getBirthday(), partners.get(i).getBirthday())))
                 partners.remove(i);
-//            else if (!(Utils.checkLocation(user, partners.get(i))))
-//                partners.remove(i);
+            else if (!(Utils.checkLocation(user, partners.get(i))))
+                partners.remove(i);
         }
         Collections.sort(partners, new Comparator<User>() {
 
