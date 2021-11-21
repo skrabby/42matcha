@@ -14,7 +14,7 @@ const Footer: React.FC = (props) => {
 			{/*</div>*/}
 			<div className='info'>
 				<div>
-					<p>Copyright © 2021</p>
+					<p>SKRABBY OELAINA © 2021</p>
 				</div>
 			</div>
 		</footer>

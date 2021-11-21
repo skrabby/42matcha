@@ -1,6 +1,6 @@
 footer {
-  background: #000000;
-  color: white;
+  background: #ffffff;
+  color: black;
 
   &:hover {
     .follow-us img {
@@ -17,7 +17,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
+    min-height: 140px;
     div p {
       text-align: center;
     }

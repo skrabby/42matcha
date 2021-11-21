@@ -11,6 +11,8 @@ export default class Router extends React.Component {
                 <Route exact path={Routes.HOME} component={Pages.HomePage} />
                 <Route exact path={Routes.LOGIN} component={Pages.LoginPage} />
                 <Route exact path={Routes.PROFILE} component={Pages.ProfilePage} />
+                <Route exact path={Routes.CHATS} component={Pages.ChatsPage} />
+                <Route exact path={Routes.CHAT} component={Pages.ChatPage} />
             </Switch>
         );
     }
