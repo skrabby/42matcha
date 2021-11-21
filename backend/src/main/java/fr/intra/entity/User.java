@@ -19,7 +19,6 @@ public class User {
     private String orientation;
     private String description;
     private List<String> tags;
-    private String token;
     private String birthday;
     private int popularity;
     private String latitude;

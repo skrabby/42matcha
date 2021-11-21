@@ -25,11 +25,11 @@ public class UserRepository {
         User user = null;
         String SQL = String.format("SELECT * FROM %s WHERE id=?", USERS);
 
-        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 user = buildUserFromRs(rs);
             }
         } catch (SQLException ex) {
@@ -43,11 +43,11 @@ public class UserRepository {
         User user = null;
         String SQL = String.format("SELECT * FROM %s WHERE email=?", USERS);
 
-        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 user = buildUserFromRs(rs);
             }
         } catch (SQLException ex) {
@@ -61,10 +61,10 @@ public class UserRepository {
         List<User> userList = new ArrayList<>();
         String SQL = String.format("SELECT * FROM %s", USERS);
 
-        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 User user = buildUserFromRs(rs);
                 user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 userList.add(user);
@@ -94,9 +94,9 @@ public class UserRepository {
 
     public boolean updateUserProfile(User user) {
         String SQL = String.format("UPDATE %s " +
-                        "SET name = ?,gender = ?,orientation = ?,description = ?" +
-                        "WHERE id=?", USERS);
-        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+                "SET name = ?,gender = ?,orientation = ?,description = ?" +
+                "WHERE id=?", USERS);
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setString(1, user.getName());
             statement.setString(2, user.getGender());
@@ -116,12 +116,12 @@ public class UserRepository {
         List<User> partners = new ArrayList<>();
         String SQL = String.format("SELECT * FROM %s WHERE email != ? AND orientation = ?", USERS);
 
-        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setString(1, email);
             statement.setString(2, "BISEXUAL");
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 User user = buildUserFromRs(rs);
                 user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 partners.add(user);
@@ -136,16 +136,16 @@ public class UserRepository {
         List<User> partners = new ArrayList<>();
         String SQL = String.format("SELECT * FROM %s WHERE email != ? AND orientation = ? AND gender = ?", USERS);
 
-        try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setString(1, email);
             statement.setString(2, orientation);
             if (orientation.equals("HETERO"))
-                statement.setString(3, gender.equals("MALE")? "FEMALE" : "MALE");
+                statement.setString(3, gender.equals("MALE") ? "FEMALE" : "MALE");
             else
-                statement.setString(3, gender.equals("MALE")? "MALE" : "FEMALE");
+                statement.setString(3, gender.equals("MALE") ? "MALE" : "FEMALE");
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 User user = buildUserFromRs(rs);
                 user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 partners.add(user);
@@ -154,5 +154,22 @@ public class UserRepository {
             ex.printStackTrace();
         }
         return partners;
+    }
+
+    public boolean setAvatar(long id, String url) {
+        String SQL = String.format("UPDATE %s " +
+                "SET avatar_url = ?" +
+                "WHERE id=?", USERS);
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setString(1, url);
+            statement.setLong(2, id);
+            if (statement.executeUpdate() > 0)
+                return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return false;
     }
 }

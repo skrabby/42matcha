@@ -15,14 +15,17 @@ import java.util.*;
 public class UserService {
     private final UserRepository userRepository;
     private final LikesRepository likesRepository;
+    private final FilesStorageService filesStorageService;
     private final AuthService authService;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        AuthService authService,
-                       LikesRepository likesRepository) {
+                       LikesRepository likesRepository,
+                       FilesStorageService filesStorageService) {
         this.userRepository = userRepository;
         this.likesRepository = likesRepository;
+        this.filesStorageService = filesStorageService;
         this.authService = authService;
     }
 
@@ -71,5 +74,10 @@ public class UserService {
         });
 
         return partners;
+    }
+
+    public boolean setAvatar(String pictureNum, long id) {
+        String url = filesStorageService.getPicture(id, Integer.valueOf(pictureNum));
+        return userRepository.setAvatar(id, url);
     }
 }

@@ -40,14 +40,28 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("update")
-    public ResponseEntity<?> updateUser(@RequestBody User user){
+    @PostMapping("setAvatar")
+    public ResponseEntity<?> setAvatar(@RequestBody String pictureNum,
+                                       @RequestHeader String token){
+        long id;
         try {
-            long id = authService.getUserId(user.getToken());
-            if (id != user.getId())
-                return new  ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            id = authService.getUserId(token);
         } catch (JWTException ex){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if(userService.setAvatar(pictureNum, id))
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("update")
+    public ResponseEntity<?> updateUser(@RequestBody User user,
+                                        @RequestHeader String token){
+        long id;
+        try {
+            id = authService.getUserId(token);
+        } catch (JWTException ex){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return userService.updateUserProfile(user) ?
                 new ResponseEntity<>(HttpStatus.OK):
@@ -57,12 +71,13 @@ public class UserController {
     @GetMapping("findPartner")
     @ResponseBody
     public List<User> getPartners(@RequestHeader String token){
-        long id = 3L;
-//        try {
-//            id = authService.getUserId(token);
-//        } catch (JWTException ex){
-//            return null;
-//        }
-        return userService.findPartners(id);
+        long id;
+        try {
+            id = authService.getUserId(token);
+        } catch (JWTException ex){
+            return null;
+        }
+        List<User> users = userService.findPartners(id);
+        return users;
     }
 }

@@ -32,12 +32,12 @@ public class FilesController {
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestHeader("Token") String token,
                                         @PathVariable int pictureNum) {
-        long userID = 3L;
-//        try {
-//            userID = authService.getUserId(token);
-//        } catch (JWTException ex) {
-//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-//        }
+        long userID;
+        try {
+            userID = authService.getUserId(token);
+        } catch (JWTException ex) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
 
         try {
             if (storageService.save(file, userID + "_" + pictureNum))
@@ -53,12 +53,12 @@ public class FilesController {
     @ResponseBody
     public FileInfo getPicture(@RequestHeader("Token") String token,
                               @PathVariable int pictureNum) {
-        long userID = 3L;
-//        try {
-//            userID = authService.getUserId(token);
-//        } catch (JWTException ex) {
-//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-//        }
+        long userID;
+        try {
+            userID = authService.getUserId(token);
+        } catch (JWTException ex) {
+            return null;
+        }
 
         try{
             return new FileInfo(String.valueOf(userID), storageService.getPicture(userID, pictureNum));
@@ -67,11 +67,4 @@ public class FilesController {
         }
     }
 
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = storageService.load(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
 }

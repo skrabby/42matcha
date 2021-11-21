@@ -67,7 +67,7 @@ public class Utils {
             double y2 = Double.parseDouble(user2.getLongitude());
 
             double result = Math.sqrt(pow2(x1 - x2) + pow2(y1 - y2));
-            if (result * 111.111 < 5) {
+            if (result * 111.111 < 10) {
                 return true;
             }
             return false;
