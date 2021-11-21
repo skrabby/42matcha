@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS USER_TAGS(
     tag_id      BIGSERIAL REFERENCES TAGS(id) ON DELETE CASCADE);
 
 -- Generate General tags
-insert  into tags (tag) values ('Music'), ('Sleep'), ('Run');
+insert  into tags (tag) values ('Music'), ('Sleep'), ('Run'), ('Code'), ('Films'), ('Smoke');
 
 --Table for confirm email
 CREATE TABLE IF NOT EXISTS REG_EMAILS(

@@ -26,7 +26,7 @@ public class UserController {
         this.authService = authService;
     }
 
-    @PostMapping("profile")
+    @GetMapping("profile")
     @ResponseBody
     public User getUserFromToken(@RequestHeader String token) {
         User user;
@@ -54,15 +54,15 @@ public class UserController {
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping("findPartner")
+    @GetMapping("findPartner")
     @ResponseBody
     public List<User> getPartners(@RequestHeader String token){
-        long id;
-        try {
-            id = authService.getUserId(token);
-        } catch (JWTException ex){
-            return null;
-        }
+        long id = 3L;
+//        try {
+//            id = authService.getUserId(token);
+//        } catch (JWTException ex){
+//            return null;
+//        }
         return userService.findPartners(id);
     }
 }
