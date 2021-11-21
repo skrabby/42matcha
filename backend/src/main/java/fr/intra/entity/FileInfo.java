@@ -1,4 +1,4 @@
-package fr.intra.util;
+package fr.intra.entity;
 
 import lombok.Data;
 

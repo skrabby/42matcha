@@ -1,5 +1,6 @@
 package fr.intra.repository;
 
+import fr.intra.entity.ChatRoomStatus;
 import fr.intra.properties.PgProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,21 +19,50 @@ public class LikesRepository {
         this.pgProperties = pgProperties;
     }
 
-    public boolean insertLike(long likerId, long likedId){
+    public ChatRoomStatus setChatRoom(long id1, long id2) {
+        if (checkMatch(id1, id2)) {
+            String SQL = String.format("INSERT INTO %s (user_id1, user_id2) VALUES (?, ?)",
+                    "CHAT_ROOMS");
+            try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+                PreparedStatement statement = pgPool.prepareStatement(SQL);
+                statement.setLong(1, id1);
+                statement.setLong(2, id2);
+                if (statement.executeUpdate() > 0)
+                    return ChatRoomStatus.CREATED;
+                else return ChatRoomStatus.ERROR;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return ChatRoomStatus.ERROR;
+            }
+        }
+        return ChatRoomStatus.NOT_MATCH;
+    }
+
+    public ChatRoomStatus tryToSetChatRoom(long likerId, long likedId) {
+        try{
+            return setChatRoom(likerId, likedId);
+        } catch (Exception ex){
+            return ChatRoomStatus.ERROR;
+        }
+    }
+
+    public ChatRoomStatus insertLike(long likerId, long likedId){
         String SQL = String.format("INSERT INTO %s (liker_id, liked_id) VALUES (?, ?)",
                 LIKES);
-
+        ChatRoomStatus status = tryToSetChatRoom(likerId, likedId);
+        if (status.equals(ChatRoomStatus.ERROR)) // If room not created match will not accepted
+            return status;
         try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setLong(1, likerId);
             statement.setLong(2, likedId);
             if (statement.executeUpdate() > 0)
-                return true;
+                return status;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return false;
+            return status;
         }
-        return false;
+        return status;
     }
 
     //Check matches
