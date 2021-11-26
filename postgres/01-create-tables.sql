@@ -25,5 +25,10 @@ INSERT INTO USERS (email, password, name, orientation, description, gender) VALU
 
 -- create table if not exists TAGS(ID serial primary key, TAG VARCHAR UNIQUE);
 
+--Create Chat Rooms
+CREATE TABLE IF NOT EXISTS CHAT_ROOMS(
+	    id          BIGSERIAL PRIMARY KEY,
+	    user_id1     BIGSERIAL REFERENCES USERS(id) ON DELETE cascade,
+	    user_id2     BIGSERIAL REFERENCES USERS(id) ON DELETE cascade)
 
 
