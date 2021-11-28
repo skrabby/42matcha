@@ -113,4 +113,7 @@ begin
 	insert into user_tags (user_id, tag_id) values (i,(floor(random()*(2-1+1))+1)), (i,(floor(random()*(4-3+1))+3)), (i,(floor(random()*(6-5+1))+5));
 	end  loop;
 end
-$do$
+$do$;
+
+-- Some rooms for test
+insert into chat_rooms (user_id1, user_id2) values (2, 7), (2, 1), (2, 8), (8, 1), (7, 8)
