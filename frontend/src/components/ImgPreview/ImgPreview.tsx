@@ -1,5 +1,4 @@
 import React from 'react';
-import AudioPlayer from "../AudioPlayer";
 
 import './ImgPreview.scss';
 
@@ -8,15 +7,21 @@ interface ImgPreviewProps {
     src?: string;
     artist?: string;
     name?: string;
+    onChange?: (e: any) => void;
 }
 
 const ImgPreview: React.FC<ImgPreviewProps> = (props) => {
     return (
         <div className='sample'>
-            <img src={props.imgPreviewSrc} alt=''/>
-            {/*<div className='sample__audio-player'>*/}
-            {/*    <AudioPlayer artist={props.artist} name={props.name} src={props.src ?? ''}/>*/}
-            {/*</div>*/}
+            <label>
+                <img src={props.imgPreviewSrc} alt=''/>
+                <input
+                    type="file"
+                    accept="image/png, image/gif, image/jpeg"
+                    style={{display:"none"}}
+                    onChange={(e) => props.onChange && props.onChange(e)}
+                />
+            </label>
         </div>
     );
 }

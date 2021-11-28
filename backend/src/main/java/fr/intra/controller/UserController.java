@@ -26,6 +26,14 @@ public class UserController {
         this.authService = authService;
     }
 
+    @GetMapping("id{id}")
+    @ResponseBody
+    public User getUserById(@PathVariable Long id) {
+        User user = userService.findById(id);
+
+        return user;
+    }
+
     @GetMapping("profile")
     @ResponseBody
     public User getUserFromToken(@RequestHeader String token) {

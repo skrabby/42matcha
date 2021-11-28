@@ -3,6 +3,7 @@ import {Header, Footer, Button} from "../../components";
 import {RouteComponentProps, withRouter} from "react-router";
 
 import './ChatPage.scss';
+import * as api from "./api";
 import * as Router from "../../components/Router/constants";
 
 type ChatPageProps = RouteComponentProps & {
@@ -16,6 +17,7 @@ type ChatPageProps = RouteComponentProps & {
 
 const ChatPage = (props: ChatPageProps) => {
     const {profileId, chatId} = props.match.params;
+    const [user, setUser] = useState<any>();
     const [chatContent, setChatContent] = useState<JSX.Element[]>([]);
     const [showInput, setShowInput] = useState<boolean>(true);
     const [connection, setConnection] = useState<WebSocket>();
@@ -23,41 +25,13 @@ const ChatPage = (props: ChatPageProps) => {
     const chatContentRef = useRef<HTMLDivElement | null>(null);
     const input = useRef<HTMLInputElement | null>(null);
 
-    const formatDate = (time: Date) => {
-        const date = time.getDate() < 10 ? `0${time.getDate()}` : time.getDate();
-        const month = time.getMonth() < 10 ? `0${time.getMonth()}` : time.getMonth();
-        const hour = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
-        const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+    useEffect(() => {
+        api.getUserInfo(profileId)
+            .then((user) => {
+                setUser(user);
+            })
+    }, [])
 
-        return `${date}/${month}/${time.getFullYear()} ${hour}:${minutes}`;
-    }
-
-    const addMessage = (author: string, authorId: string, text: string, time: Date, ) => {
-        const messageEl = (
-            <div key={chatContent.length} className="chat__message">
-                <div className='chat__container-sender'>
-                    <div className={`chat__author ${profileId === authorId ? '' : 'chat__author_other'}`}>{author}</div>
-                    <div className="chat__time">{formatDate(time)}</div>
-                </div>
-                <div className="chat__text">{text}</div>
-            </div>
-        );
-        chatContent.push(messageEl)
-        setChatContent([...chatContent]);
-    }
-
-    const onInputKeyPress = (e: any) => {
-        if (!e.target.value) return;
-        if (e.key === 'Enter') {
-            connection && connection.send(JSON.stringify({message: e.target.value, chatId, authorId: profileId, authorName: 'Duc'}));
-            e.target.value = '';
-        }
-    }
-
-    const onBackBtnClick = () => {
-        props.history.push(Router.SET_CHATS(profileId));
-        connection && connection.close();
-    }
 
     useEffect(() => {
         // if browser doesn't support WebSocket, just show some notification and exit
@@ -106,7 +80,48 @@ const ChatPage = (props: ChatPageProps) => {
         }
 
         setConnection(connection);
-    }, [])
+    }, []);
+
+    const formatDate = (time: Date) => {
+        const date = time.getDate() < 10 ? `0${time.getDate()}` : time.getDate();
+        const month = time.getMonth() < 10 ? `0${time.getMonth()}` : time.getMonth();
+        const hour = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
+        const minutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+
+        return `${date}/${month}/${time.getFullYear()} ${hour}:${minutes}`;
+    }
+
+    const addMessage = (author: string, authorId: string, text: string, time: Date, ) => {
+        const messageEl = (
+            <div key={chatContent.length} className="chat__message">
+                <div className='chat__container-sender'>
+                    <div className={`chat__author ${profileId === authorId ? '' : 'chat__author_other'}`}>{author}</div>
+                    <div className="chat__time">{formatDate(time)}</div>
+                </div>
+                <div className="chat__text">{text}</div>
+            </div>
+        );
+        chatContent.push(messageEl)
+        setChatContent([...chatContent]);
+    }
+
+    const onInputKeyPress = (e: any) => {
+        if (!e.target.value) return;
+        if (e.key === 'Enter') {
+            connection && connection.send(JSON.stringify({
+                message: e.target.value,
+                chatId,
+                authorId: profileId,
+                authorName: user.name}));
+
+            e.target.value = '';
+        }
+    }
+
+    const onBackBtnClick = () => {
+        props.history.push(Router.SET_CHATS(profileId));
+        connection && connection.close();
+    }
 
     return (
         <div className='wrapper-page'>
@@ -120,7 +135,7 @@ const ChatPage = (props: ChatPageProps) => {
                                 <span onClick={() => console.log('V')} className='chat__receiver'>{'Vickie'}</span>
                             </div>
                             <div ref={chatContentRef} className='chat__content'>
-                                {!wsConnected && (
+                                {(!wsConnected || !user) && (
                                     <div style={{marginTop: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                         <div className="lds-heart"><div/></div>
                                     </div>

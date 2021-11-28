@@ -20,7 +20,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public String authorize(String username, String password) {
+    public User authorize(String username, String password) {
         if (username == null || password == null) {
             throw new LoginException(HttpStatus.BAD_REQUEST, "Invalid body, missing username or password");
         }
@@ -30,8 +30,9 @@ public class AuthService {
             throw new LoginException(HttpStatus.UNAUTHORIZED, "User not found. Wrong username or password");
         }
 
-        String token = JWTEncoder.generateToken(user.getId());
-        return token;
+        user.setToken(JWTEncoder.generateToken(user.getId()));
+        user.setPassword("");
+        return user;
     }
 
     public Long getUserId(String token) {

@@ -1,6 +1,5 @@
 package fr.intra.service;
 
-import com.sun.javafx.scene.control.behavior.SliderBehavior;
 import fr.intra.entity.User;
 import fr.intra.repository.LikesRepository;
 import fr.intra.repository.TagsRepository;

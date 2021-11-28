@@ -22,7 +22,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
   mongo-express:
     image: mongo-express
     restart: always
@@ -32,41 +31,21 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-#
-#  backend:
-#    image: backend
-#    container_name: backend
-#    ports:
-#      - 8080:8080
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/matcha
-#      SPRING_DATASOURCE_USERNAME: user
-#      SPRING_DATASOURCE_PASSWORD: q1w2e3r4
-#    restart: always
-#    build:
-#      context: ./backend/
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - postgres
-#    build:
-#      context: ./postgres/
-#      dockerfile: Dockerfile
-#  backend.authorization:
-#    image: backend.authorization
-#    container_name: backend.authorization
-#    ports:
-#      - 8080:8080
-#    environment:
-#      PG_LOGIN: postgres
-#      PG_PASSWORD: postgres
-#      PG_SCHEMA: selfpiano_auth
-#      PG_HOST: host.docker.internal
-#    restart: always
-#    build:
-#      context: ./backend.authorization/
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - db
+  backend:
+    image: backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/matcha
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: q1w2e3r4
+    restart: always
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
 #  matcha-frontend:
 #    image: matcha-frontend
 #    container_name: matcha-frontend

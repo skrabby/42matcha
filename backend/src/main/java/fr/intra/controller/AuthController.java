@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -26,10 +24,8 @@ public class AuthController {
     }
 
     @PostMapping("auth")
-    public ResponseEntity<Map<String, String>> auth(@RequestBody LoginForm loginForm) {
-        Map<String, String> response = new HashMap<String, String>() {{
-            put("token", authService.authorize(loginForm.getUsername(), loginForm.getPassword()));
-        }};
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Object> auth(@RequestBody LoginForm loginForm) {
+        return new ResponseEntity<>(authService.authorize(loginForm.getUsername(),
+                loginForm.getPassword()), HttpStatus.OK);
     }
 }

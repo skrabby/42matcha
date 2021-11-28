@@ -56,3 +56,11 @@ CREATE TABLE IF NOT EXISTS PICTURES(
     user_id     BIGSERIAL REFERENCES USERS(id) ON DELETE cascade,
     url         VARCHAR(255) UNIQUE,
     picture_num int NOT NULL DEFAULT 0);
+
+--Create Chat Rooms
+CREATE TABLE IF NOT EXISTS CHAT_ROOMS
+(
+    id          BIGSERIAL PRIMARY KEY,
+    user_id1    BIGSERIAL REFERENCES USERS (id) ON DELETE cascade,
+    user_id2    BIGSERIAL REFERENCES USERS (id) ON DELETE cascade
+)

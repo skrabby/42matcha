@@ -1,8 +1,6 @@
 package fr.intra.entity;
 
 import lombok.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,6 +21,7 @@ public class User {
     private int popularity;
     private String latitude;
     private String longitude;
-    private String avatar_url;
+    private String avatarUrl;
     private List<String> pictures;
+    private String token;
 }

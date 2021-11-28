@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 
 @Controller
+@RequestMapping("/")
 @Transactional
 public class LikeController {
     private final LikesService likesService;
@@ -28,10 +29,10 @@ public class LikeController {
         this.authService = authService;
     }
 
-    @PostMapping("setLike")
+    @PostMapping("setLike/{likedID}")
     @ResponseBody
     public ChatRoomStatus setLike(@RequestHeader String token,
-                                  @RequestBody long likedID) {
+                                  @PathVariable long likedID) {
         long id;
         try {
             id = authService.getUserId(token);
@@ -40,5 +41,4 @@ public class LikeController {
         }
         return likesService.insertLike(id, likedID);
     }
-
 }

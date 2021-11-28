@@ -30,8 +30,7 @@ begin
                	(floor(random()*(50-1+1))+1))ON CONFLICT DO NOTHING;
 	end  loop;
 end
-$do$
-
+$do$;
 
 do
 $do$
@@ -65,7 +64,7 @@ begin
                	(floor(random()*(50-1+1))+1))ON CONFLICT DO NOTHING;
 	end  loop;
 end
-$do$
+$do$;
 
 
 
@@ -101,10 +100,7 @@ begin
                	(floor(random()*(50-1+1))+1))ON CONFLICT DO NOTHING;
 	end  loop;
 end
-$do$
-
-
-
+$do$;
 
 --Add some tags
 do

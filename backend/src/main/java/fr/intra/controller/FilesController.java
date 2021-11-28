@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 
 
 @Controller
+@RequestMapping("/")
 @Transactional
 public class FilesController {
 

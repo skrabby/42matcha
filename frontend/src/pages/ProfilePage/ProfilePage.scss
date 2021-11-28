@@ -28,6 +28,12 @@
     right: 16px;
     top: 20px;
     z-index: 2;
+    transition: all 0.4s ease;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.15);
+    }
   }
 
   &__icon-edit {
@@ -41,8 +47,6 @@
     padding: 24px 30px;
     border-radius: 15px;
     margin-left: 20px;
-    //background: #fafafa;
-    //box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
   &__name {
@@ -68,6 +72,34 @@
     font-size: 16px;
     margin-top: 20px;
   }
+
+  &__main-info {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  &__tags {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    height: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 4px 8px;
+    min-width: 100px;
+    background: #3494E6;
+    border-radius: 16px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+
+    &:nth-of-type(2n) {
+      background: #EC6EAD;
+    }
+  }
 }
 
 .img-container {
@@ -75,7 +107,11 @@
   flex-wrap: wrap;
   margin: 60px 0;
 
-  div > * {
+  div label > * {
     margin: 10px;
+  }
+
+  img {
+    object-fit: cover;
   }
 }

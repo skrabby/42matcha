@@ -3,6 +3,10 @@
 .header {
   background: white;
 
+  &__logo:hover {
+    cursor: pointer;
+  }
+
   &__container {
     width: 1320px;
     margin: 0 auto;
@@ -85,6 +89,8 @@
 
 .modal-login {
   position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100vh;
   z-index: 10;

@@ -102,53 +102,8 @@ module.exports = function(proxy, allowedHost) {
     public: allowedHost,
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy: {
-      "/api-applications/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/api-subscriptions/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/api-agreements/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/api-products/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/api-spaces/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/api-users/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/api-apis/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
-      },
-      "/getUserInfo/": {
-        "target": "http://localhost:8087/",
-        headers: {
-          'iv-user' : 'test'
-        }
+      "/api/": {
+        "target": "http://localhost:8080/"
       }
     },
     before(app, server) {

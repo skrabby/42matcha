@@ -11,21 +11,34 @@
   overflow-y: scroll;
   background: white;
 
+  &__no-chats {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #8a8a8a;
+    text-align: center;
+  }
+
   &__chat {
-    padding-top: 10px;
-    height: 90px;
+    box-sizing: border-box;
+    padding-top: 16px;
+    height: 100px;
     border-bottom: 1px solid #f0f0f0;
+
+    .chat-container {
+      padding: 0 30px;
+    }
 
     &:hover {
       background: linear-gradient(90deg, #f3f3ff, #fff4f9);
       cursor: pointer;
     }
-    .chat-container {
-      padding: 0 30px;
-    }
 
     &:last-of-type {
       border-bottom: none;
+    }
+
+    &_new-msg {
+      background: linear-gradient(90deg, #f3f3ff, #fff4f9);
     }
   }
 

@@ -39,8 +39,10 @@ public class UserRepository {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        user.setTags(tagsRepository.findAllTagsById(id));
-        user.setPictures(picturesRepository.getPicturesById(id));
+        if (user != null) {
+            user.setTags(tagsRepository.findAllTagsById(id));
+            user.setPictures(picturesRepository.getPicturesById(id));
+        }
         return user;
     }
 
@@ -58,7 +60,9 @@ public class UserRepository {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        user.setTags(tagsRepository.findAllTagsById(user.getId()));
+        if (user != null) {
+            user.setTags(tagsRepository.findAllTagsById(user.getId()));
+        }
         return user;
     }
 
@@ -93,7 +97,7 @@ public class UserRepository {
                 .popularity(rs.getInt("popularity"))
                 .latitude(rs.getString("latitude"))
                 .longitude(rs.getString("longitude"))
-                .avatar_url(rs.getString("avatar_url"))
+                .avatarUrl(rs.getString("avatar_url"))
                 .build();
     }
 

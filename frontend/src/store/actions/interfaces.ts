@@ -1,13 +1,13 @@
 export interface ILoginSubmit {
-    login: string,
+    username: string,
     password: string
 }
 
 export interface IForgotPasswordSubmit {
-    login: string
+    username: string
 }
 
 export interface IRegisterSubmit {
-    login: string,
+    username: string,
     password: string
 }

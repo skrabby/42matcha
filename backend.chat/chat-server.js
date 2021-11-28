@@ -34,23 +34,54 @@ let wss = new WebSocketServer({
 wss.on('connection', (ws, req) => {
     const params = getJsonFromUrl(req.url);
     ws.uuid = uuidv4();
-    ws.chatId = params.chatId;
 
-    if (ROOMS[params.chatId]) {
-        // if room exists add participant
-        ROOMS[params.chatId][ws.uuid] = ws;
-    } else {
-        ROOMS[params.chatId] = {};
-        ROOMS[params.chatId][ws.uuid] = ws;
+    // chats page
+    if (params.chats) {
+        try {
+            const chatIds = JSON.parse(params.chats);
+            ws.chatIds = chatIds;
+            if (Array.isArray(chatIds)) {
+                chatIds.forEach((chatId) => {
+                    if (ROOMS[chatId]) {
+                        // if room exists add participant
+                        ROOMS[chatId][ws.uuid] = ws;
+                    } else {
+                        ROOMS[chatId] = {};
+                        ROOMS[chatId][ws.uuid] = ws;
+                    }
+                });
+
+                mongoClient.connect(async (error, client) => {
+                    const messages = [];
+                    chatIds.forEach((chatId) => {
+                        messages.push(client.db("matcha").collection("chats")
+                            .findOne({chatId: chatId}, {sort: {$natural: -1}}));
+                    })
+                    ws.send(JSON.stringify((await Promise.all(messages)).filter(message => message !== null)));
+                });
+            }
+        } catch (e) {}
+
+    // chat page
+    } else if (params.chatId) {
+        ws.chatIds = [params.chatId]
+
+        if (ROOMS[params.chatId]) {
+            // if room exists add participant
+            ROOMS[params.chatId][ws.uuid] = ws;
+        } else {
+            ROOMS[params.chatId] = {};
+            ROOMS[params.chatId][ws.uuid] = ws;
+        }
+
+        mongoClient.connect((error, client) => {
+            client.db("matcha").collection("chats")
+                .find({chatId: params.chatId})
+                .toArray((err, messages) => {
+                    ws.send(JSON.stringify(messages.slice(-100)))
+                });
+        })
     }
-
-    mongoClient.connect((error, client) => {
-        client.db("matcha").collection("chats")
-            .find({ chatId: params.chatId })
-            .toArray((err, messages) => {
-                ws.send(JSON.stringify(messages.slice(-100)))
-            });
-    })
 
     ws.on('message', (message) => {
         const messageJSON = JSON.parse(message.toString());
@@ -77,9 +108,11 @@ wss.on('connection', (ws, req) => {
     });
 
     ws.on('close', () => {
-        if (!ROOMS[ws.chatId][ws.uuid]) return;
-        if (Object.keys(ROOMS[ws.chatId]).length === 1) delete ROOMS[ws.chatId]
-        else delete ROOMS[ws.chatId][ws.uuid];
+        ws.chatIds.forEach((chatId) => {
+            if (!ROOMS[ws.chatId] || !ROOMS[ws.chatId][ws.uuid]) return;
+            if (Object.keys(ROOMS[ws.chatId]).length === 1) delete ROOMS[ws.chatId]
+            else delete ROOMS[ws.chatId][ws.uuid];
+        })
     })
 })
 
