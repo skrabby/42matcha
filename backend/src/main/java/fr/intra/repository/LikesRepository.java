@@ -84,7 +84,7 @@ public class LikesRepository {
                 return status;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return status;
+            return ChatRoomStatus.INTERNAL_ERROR;
         }
     }
 

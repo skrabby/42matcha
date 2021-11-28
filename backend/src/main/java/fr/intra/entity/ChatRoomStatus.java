@@ -5,5 +5,6 @@ public enum ChatRoomStatus {
     NOT_MATCH,
     ERROR,
     NOT_AUTHORIZED,
-    LIKE_FOUND
+    LIKE_FOUND,
+    INTERNAL_ERROR
 }
