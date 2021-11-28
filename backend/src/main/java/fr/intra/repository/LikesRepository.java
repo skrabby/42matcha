@@ -46,23 +46,46 @@ public class LikesRepository {
         }
     }
 
+    public boolean checkLike(long likerID, long likedID){
+        String SQL = String.format("SELECT id FROM %s WHERE liker_id = ? AND liked_id = ?", LIKES);
+        ArrayList<Long> result = new ArrayList<>();
+
+        try (Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
+            PreparedStatement statement = pgPool.prepareStatement(SQL);
+            statement.setLong(1, likerID);
+            statement.setLong(2, likedID);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                result.add(Long.parseLong(rs.getString("id")));
+            }
+            if (result.size() == 1)
+                return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return true;
+        }
+        return false;
+    }
+
     public ChatRoomStatus insertLike(long likerId, long likedId){
-        String SQL = String.format("INSERT INTO %s (liker_id, liked_id) VALUES (?, ?)",
-                LIKES);
-        ChatRoomStatus status = tryToSetChatRoom(likerId, likedId);
-        if (status.equals(ChatRoomStatus.ERROR)) // If room not created match will not accepted
-            return status;
+        if (checkLike(likerId, likedId))
+            return ChatRoomStatus.LIKE_FOUND;
+        String SQL = String.format("INSERT INTO %s (liker_id, liked_id) VALUES (?, ?)", LIKES);
+        ChatRoomStatus status = ChatRoomStatus.ERROR;
         try(Connection pgPool = DriverManager.getConnection(pgProperties.getAuthorizedUrl())) {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setLong(1, likerId);
             statement.setLong(2, likedId);
-            if (statement.executeUpdate() > 0)
+            if (statement.executeUpdate() > 0) {
+                tryToSetChatRoom(likerId, likedId);
+                if (status.equals(ChatRoomStatus.ERROR)) // If room not created match will not accepted
+                    return status;
+            }
                 return status;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return status;
         }
-        return status;
     }
 
     //Check matches
@@ -88,7 +111,7 @@ public class LikesRepository {
                 return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return true;
+            return false;
         }
         return false;
     }

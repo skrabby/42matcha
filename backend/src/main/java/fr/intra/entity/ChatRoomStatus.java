@@ -4,5 +4,6 @@ public enum ChatRoomStatus {
     CREATED,
     NOT_MATCH,
     ERROR,
-    NOT_AUTHORIZED
+    NOT_AUTHORIZED,
+    LIKE_FOUND
 }
