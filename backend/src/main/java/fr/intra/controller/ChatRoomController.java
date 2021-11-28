@@ -1,5 +1,6 @@
 package fr.intra.controller;
 
+import fr.intra.entity.ChatInfo;
 import fr.intra.exception.JWTException;
 import fr.intra.service.AuthService;
 import fr.intra.service.ChatRoomService;
@@ -30,13 +31,13 @@ public class ChatRoomController {
 
     @GetMapping("findAllChats")
     @ResponseBody
-    public List<String> findAllChats(@RequestHeader String token){
-        long id;
-        try {
-            id = authService.getUserId(token);
-        } catch (JWTException ex){
-            return null;
-        }
+    public List<ChatInfo> findAllChats(@RequestHeader String token){
+        long id = 3L;
+//        try {
+//            id = authService.getUserId(token);
+//        } catch (JWTException ex){
+//            return null;
+//        }
         return chatRoomService.getAllChats(id);
     }
 

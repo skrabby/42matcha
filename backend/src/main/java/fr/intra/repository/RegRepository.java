@@ -38,7 +38,7 @@ public class RegRepository {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
+//                user.setPassword(rs.getString("password"));
                 user.setName(rs.getString("name"));
             }
         } catch (SQLException ex) {
@@ -53,7 +53,7 @@ public class RegRepository {
                 PreparedStatement statement = regPool.prepareStatement(SQL);
                 statement.setString(1, user.getName());
                 statement.setString(2, user.getEmail());
-                statement.setString(3, user.getPassword());
+//                statement.setString(3, user.getPassword());
                 if (statement.executeUpdate() > 0)
                     return new ResponseEntity<>(HttpStatus.ACCEPTED);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,7 +73,7 @@ public class RegRepository {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
+//            statement.setString(3, user.getPassword());
             statement.setString(4, secretKey = RandomStringUtils.random(10, true, true));
             if (statement.executeUpdate() > 0)
                 return secretKey;

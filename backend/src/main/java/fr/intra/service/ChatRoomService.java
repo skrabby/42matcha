@@ -1,5 +1,6 @@
 package fr.intra.service;
 
+import fr.intra.entity.ChatInfo;
 import fr.intra.repository.ChatRoomRepository;
 import fr.intra.repository.LikesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ChatRoomService {
         this.chatRoomRepository = chatRoomRepository;
     }
 
-    public List<String> getAllChats(long id) {
+    public List<ChatInfo> getAllChats(long id) {
         return chatRoomRepository.getAllChats(id);
     }
 }

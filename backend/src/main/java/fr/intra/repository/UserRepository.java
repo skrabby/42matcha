@@ -87,7 +87,7 @@ public class UserRepository {
     private User buildUserFromRs(ResultSet rs) throws SQLException {
         return User.builder()
                 .id(Long.parseLong(rs.getString("id")))
-                .password(rs.getString("password"))
+//                .password(rs.getString("password"))
                 .email(rs.getString("email"))
                 .name(rs.getString("name"))
                 .gender(rs.getString("gender"))
