@@ -24,7 +24,7 @@ public class LikeController {
 
     @Autowired
     public LikeController(LikesService likesService,
-                          AuthService authService){
+                          AuthService authService) {
         this.likesService = likesService;
         this.authService = authService;
     }
@@ -40,5 +40,18 @@ public class LikeController {
             return ChatRoomStatus.NOT_AUTHORIZED;
         }
         return likesService.insertLike(id, likedID);
+    }
+
+    @GetMapping("isMatch/{likedID}")
+    @ResponseBody
+    public boolean isMatch(@RequestHeader String token,
+                           @PathVariable long likedID) {
+        long id;
+        try {
+            id = authService.getUserId(token);
+        } catch (JWTException ex) {
+            return false;
+        }
+        return likesService.checkMatch(id, likedID);
     }
 }

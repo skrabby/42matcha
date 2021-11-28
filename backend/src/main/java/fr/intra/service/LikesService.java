@@ -23,4 +23,8 @@ public class LikesService {
     public List<Long> findUserLikesIds(long id){
         return likesRepository.findUserLikesIds(id);
     }
+
+    public boolean checkMatch(long id, long likedID) {
+        return likesRepository.checkMatch(id, likedID);
+    }
 }
