@@ -32,12 +32,12 @@ public class ChatRoomController {
     @GetMapping("findAllChats")
     @ResponseBody
     public List<ChatInfo> findAllChats(@RequestHeader String token){
-        long id = 3L;
-//        try {
-//            id = authService.getUserId(token);
-//        } catch (JWTException ex){
-//            return null;
-//        }
+        long id;
+        try {
+            id = authService.getUserId(token);
+        } catch (JWTException ex){
+            return null;
+        }
         return chatRoomService.getAllChats(id);
     }
 

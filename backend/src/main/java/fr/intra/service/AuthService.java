@@ -26,12 +26,12 @@ public class AuthService {
         }
 
         User user = userRepository.findByEmail(username);
-//        if (user == null || !PasswordEncoder.isMatched(password, user.getPassword())) {
-//            throw new LoginException(HttpStatus.UNAUTHORIZED, "User not found. Wrong username or password");
-//        }
-//
-//        user.setToken(JWTEncoder.generateToken(user.getId()));
-//        user.setPassword("");
+        if (user == null || !PasswordEncoder.isMatched(password, user.getPassword())) {
+            throw new LoginException(HttpStatus.UNAUTHORIZED, "User not found. Wrong username or password");
+        }
+
+        user.setToken(JWTEncoder.generateToken(user.getId()));
+        user.setPassword("");
         return user;
     }
 

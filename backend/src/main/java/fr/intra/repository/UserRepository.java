@@ -34,7 +34,7 @@ public class UserRepository {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                user = buildUserFromRs(rs);
+                user = buildUserFromRs(rs, false);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -55,7 +55,7 @@ public class UserRepository {
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                user = buildUserFromRs(rs);
+                user = buildUserFromRs(rs, true);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -74,7 +74,7 @@ public class UserRepository {
             PreparedStatement statement = pgPool.prepareStatement(SQL);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = buildUserFromRs(rs);
+                User user = buildUserFromRs(rs, false);
                 user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 userList.add(user);
             }
@@ -84,10 +84,10 @@ public class UserRepository {
         return userList;
     }
 
-    private User buildUserFromRs(ResultSet rs) throws SQLException {
+    private User buildUserFromRs(ResultSet rs, boolean passNeed) throws SQLException {
         return User.builder()
                 .id(Long.parseLong(rs.getString("id")))
-//                .password(rs.getString("password"))
+                .password(passNeed? rs.getString("password") : "")
                 .email(rs.getString("email"))
                 .name(rs.getString("name"))
                 .gender(rs.getString("gender"))
@@ -131,7 +131,7 @@ public class UserRepository {
             statement.setString(2, "BISEXUAL");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = buildUserFromRs(rs);
+                User user = buildUserFromRs(rs, false);
                 user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 partners.add(user);
             }
@@ -155,7 +155,7 @@ public class UserRepository {
                 statement.setString(3, gender.equals("MALE") ? "MALE" : "FEMALE");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = buildUserFromRs(rs);
+                User user = buildUserFromRs(rs,false);
                 user.setTags(tagsRepository.findAllTagsById(user.getId()));
                 partners.add(user);
             }
